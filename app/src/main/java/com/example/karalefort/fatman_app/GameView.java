@@ -6,11 +6,17 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.view.View;
+import android.hardware.SensorManager;
+
 public class GameView extends View {
     private Bitmap fatman;
     private Bitmap pdonut;
     private Bitmap bdonut;
     private Bitmap chocdonut;
+    private SensorManager gameSensorManager;
+    private float gameAccelX = 0;
+    private float gameAccelY = 0;
+    private float gameAccelZ = 0;
 
     public GameView(Context context) {
         super(context);
@@ -19,6 +25,7 @@ public class GameView extends View {
         fatman = BitmapFactory.decodeResource(getResources(), R.drawable.fatman);
         bdonut = BitmapFactory.decodeResource(getResources(), R.drawable.bluedonut);
         chocdonut = BitmapFactory.decodeResource(getResources(), R.drawable.chocolatedonut);
+
     }
     @Override
     protected void onDraw(Canvas canvas) {
@@ -28,4 +35,6 @@ public class GameView extends View {
         canvas.drawBitmap(bdonut, blueDonut.x, blueDonut.y, null);
         canvas.drawBitmap(chocdonut, chocDonut.x, chocDonut.y, null);
     }
+
+
 }

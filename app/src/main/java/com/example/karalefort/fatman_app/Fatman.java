@@ -1,7 +1,7 @@
 package com.example.karalefort.fatman_app;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+
+import android.view.View;
 
 /**
  * Created by karalefort on 12/4/14.
@@ -11,6 +11,7 @@ import android.graphics.BitmapFactory;
 public class Fatman {
     public static int x = 10;
     public static int y = 10;
+    private View GameView;
 public int num_lives = 5;
 
 
