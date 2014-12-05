@@ -7,15 +7,25 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.view.View;
 public class GameView extends View {
-    private Bitmap bmp;
+    private Bitmap fatman;
+    private Bitmap pdonut;
+    private Bitmap bdonut;
+    private Bitmap chocdonut;
 
     public GameView(Context context) {
         super(context);
-        bmp = BitmapFactory.decodeResource(getResources(), R.drawable.fatman);
+
+        pdonut = BitmapFactory.decodeResource(getResources(), R.drawable.pinkdonut);
+        fatman = BitmapFactory.decodeResource(getResources(), R.drawable.fatman);
+        bdonut = BitmapFactory.decodeResource(getResources(), R.drawable.bluedonut);
+        chocdonut = BitmapFactory.decodeResource(getResources(), R.drawable.chocolatedonut);
     }
     @Override
     protected void onDraw(Canvas canvas) {
         canvas.drawColor(Color.WHITE);
-        canvas.drawBitmap(bmp, 10, 10, null);
+        canvas.drawBitmap(fatman, Fatman.x, Fatman.y, null);
+        canvas.drawBitmap(pdonut, pinkDonut.x, pinkDonut.y, null);
+        canvas.drawBitmap(bdonut, blueDonut.x, blueDonut.y, null);
+        canvas.drawBitmap(chocdonut, chocDonut.x, chocDonut.y, null);
     }
 }
