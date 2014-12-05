@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="play_id" type="id" />
+    <item name="exit_id" type="id" />
+    <item name="howtoplay_id" type="id" />
+</resources>
