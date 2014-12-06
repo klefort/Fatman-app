@@ -4,29 +4,60 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.graphics.Picture;
-import android.hardware.Sensor;
-import android.hardware.SensorEventListener;
 import android.view.View;
 import android.widget.Button;
 import android.view.View.OnClickListener;
-import android.view.Gravity;
-import android.widget.FrameLayout;
-import android.os.Bundle;
-import android.view.Window;
 
 
-import static android.view.View.*;
+import android.graphics.Typeface;
+import android.widget.TextView;
 
+
+
+
+/*class AndroidExternalFontsActivity extends Activity {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+    // text view label
+        TextView fatmantext = (TextView) findViewById(R.id.fatmantext_id);
+
+        // Font path
+        String fontPath = "fonts/FascinateInline-Regular";
+
+        // Loading Font Face
+        Typeface tf = Typeface.createFromAsset(getAssets(), fontPath);
+        // Applying font
+        fatmantext.setTypeface(tf);
+
+        setContentView(R.layout.activity_main);
+    }
+}*/
 
 public class MainActivity extends Activity {
 
+
+
         private GameView View;
+    //public TextView txtfatman = (TextView) findViewById(R.id.fatmantext_id);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
 
-            setContentView(R.layout.activity_main);
+        //setContentView(R.layout.activity_main);
+        // Font path
+        //String fontPath = "fonts/DAYPBL__";
+
+        // Loading Font Face
+        //Typeface tf = Typeface.createFromAsset(getAssets(), "fonts/Fascinate-Regular");
+        // Applying font
+        ///txtfatman.setTypeface(tf);
+
+
+
+
 
             final Button exitButton = (Button) findViewById(R.id.exit_id);
             exitButton.setOnClickListener(new OnClickListener() {
@@ -40,7 +71,7 @@ public class MainActivity extends Activity {
             public void onClick(View v) {
                     //requestWindowFeature(Window.FEATURE_NO_TITLE);
                     setContentView(new GameView(getApplicationContext(), MainActivity.this));
-                //setContentView(View);
+
 
             }
 
@@ -53,7 +84,8 @@ public class MainActivity extends Activity {
         final Button howtoplayButton = (Button) findViewById(R.id.howtoplay_id);
         howtoplayButton.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                finish();
+                setContentView(new howtoplayView(getApplicationContext(), MainActivity.this));
+
             }
         });
 
@@ -84,4 +116,8 @@ public class MainActivity extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
+
+
 }

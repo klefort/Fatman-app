@@ -15,10 +15,10 @@ import android.graphics.Bitmap;
 
 public class Fatman
 {
-    private int fatmanColor = Color.YELLOW; //delete later
+    //private int fatmanColor = Color.YELLOW; //delete later
     public static int x = 10;
     public static int y = 10;
-    private int fatmanRadius = 10;
+    public int fatmanRadius = 20;
     private View GameView;
     public int gameLives = 5;
     public Fatman (View view)
@@ -39,19 +39,19 @@ public class Fatman
     public void updatePositionX(float newX)
     {
         x += newX;
-        if (x + fatmanRadius >= GameView.getWidth())
-            fatmanRadius = GameView.getWidth() - fatmanRadius;
-        else if (x - fatmanRadius< 0)
-            x = fatmanRadius;
+//        if (x + fatmanRadius >= (25*14))
+//            x = (25*14) - fatmanRadius;
+//        else if (x - fatmanRadius < 0)
+//            x = fatmanRadius;
     }
 
     public void updatePositionY(float newY)
     {
         y -= newY;
-        if (y + fatmanRadius >= GameView.getWidth())
-            fatmanRadius = GameView.getWidth() - fatmanRadius;
-        else if (y - fatmanRadius< 0)
-            y = fatmanRadius;
+//        if (y + fatmanRadius >= (25*20))
+//            y = (25*20) - fatmanRadius;
+//        else if (y - fatmanRadius< 0)
+//            y = fatmanRadius;
     }
 
     public void marbleDies()
@@ -83,12 +83,12 @@ public class Fatman
 
 
 
-   /* public void draw (Canvas canvas){
+    /*public void draw (Canvas canvas){
         Bitmap fatman = BitmapFactory.decodeResource(getResources(), R.drawable.fatman);
     }*/
 
 
-   /* public void draw(Canvas canvas, Paint paint)
+  /* public void draw(Canvas canvas, Paint paint)
     {
         paint.setColor(fatmanColor);
         canvas.drawCircle(x, y, fatmanRadius, paint);

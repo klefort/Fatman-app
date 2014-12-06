@@ -14,9 +14,10 @@ import java.io.Closeable;
 
 public class Office
 {
-    private final static int TILE_SIZE = 16;
-    private final static int OFFICE_COLUMNS = 20;
-    private final static int OFFICE_ROWS = 26;
+
+    public final static int TILE_SIZE = 25;
+    public final static int OFFICE_COLUMNS = 20;
+    public final static int OFFICE_ROWS = 26;
     public final static int PATH_TILE = 0;
     public final static int VOID_TILE = 1;
     public final static int EXIT_TILE = 2;
@@ -65,13 +66,13 @@ public class Office
             paint.setColor(Color.CYAN);
             if (OfficeArray[i] == PATH_TILE)
             {
-                canvas.drawRect(officeScreenX, officeScreenY, officeScreenX + 16, officeScreenY + 16, paint);
+                canvas.drawRect(officeScreenX, officeScreenY, officeScreenX + TILE_SIZE, officeScreenY + TILE_SIZE, paint);
             }
             else if (OfficeArray[i] == EXIT_TILE)
             {
                 paint.setColor(Color.RED);
-                canvas.drawRect(officeScreenX, officeScreenY, officeScreenX + 16, officeScreenY + 16, paint);
-                paint.setColor(Color.GREEN);
+                canvas.drawRect(officeScreenX, officeScreenY, officeScreenX + TILE_SIZE, officeScreenY + TILE_SIZE, paint);
+                //paint.setColor(Color.GREEN);
             }
             else if (OfficeArray[i] == VOID_TILE)
             {

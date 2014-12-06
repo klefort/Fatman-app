@@ -3,4 +3,6 @@
     <item name="play_id" type="id" />
     <item name="exit_id" type="id" />
     <item name="howtoplay_id" type="id" />
+    <item name="fatmantext_id" type="id" />
+
 </resources>
