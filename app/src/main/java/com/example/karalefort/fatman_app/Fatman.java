@@ -18,7 +18,7 @@ public class Fatman
     //private int fatmanColor = Color.YELLOW; //delete later
     public static int x = 10;
     public static int y = 10;
-    public int fatmanRadius = 20;
+    public int fatmanRadius = 15;
     private View GameView;
     public int gameLives = 5;
     public Fatman (View view)
@@ -54,7 +54,7 @@ public class Fatman
 //            y = fatmanRadius;
     }
 
-    public void marbleDies()
+    public void FatmanDies()
     {
         gameLives--;
     }

@@ -168,12 +168,17 @@ public class GameView extends View
 //            if (gameAccelY > gameSensorBuffer || gameAccelY < -gameSensorBuffer)
                 gameFatman.updatePositionY(gameAccelY*2);
         }
+        if (gameOffice.getCellType(gameFatman.getX(), gameFatman.getY()) == gameOffice.BEETLE_TILE) {
+            if (gameAccelX > gameSensorBuffer || gameAccelX < -gameSensorBuffer)
+                if (gameFatman.getLives() > 0) {
+                    gameFatman.FatmanDies();
+                    gameFatman.init();
+                    gameWarning = true;
+
+                }
+        }
 
 
-//            if (gameFatman.getLives() > 0) {
-//                gameFatman.marbleDies();
-//                gameFatman.init();
-//                gameWarning = true;
 
 //            else {
 //                gameEndTime = System.currentTimeMillis();
@@ -232,7 +237,7 @@ public class GameView extends View
                 gameOffice.draw(gameCanvas, canvasPaint);
                 //gameFatman.draw(gameCanvas, canvasPaint);
                 //canvas.drawColor(Color.WHITE);
-               canvas.drawBitmap(fatman, Fatman.x, Fatman.y, null);
+               canvas.drawBitmap(fatman, Fatman.x - gameFatman.fatmanRadius, Fatman.y - gameFatman.fatmanRadius, null);
                 drawMesseges();
                 break;
 

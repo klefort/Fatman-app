@@ -21,7 +21,9 @@ public class Office
     public final static int PATH_TILE = 0;
     public final static int VOID_TILE = 1;
     public final static int EXIT_TILE = 2;
+    public final static int BEETLE_TILE = 3;
     private final static int VOID_COLOR = Color.LTGRAY;
+    private final static int BEETLE_COLOR = Color.GREEN;
     private Rect officeRectangle = new Rect();
     private static int[] OfficeArray;
     public final static int MAX_LEVELS = 10;
@@ -82,6 +84,16 @@ public class Office
                 officeRectangle.bottom = officeScreenY + TILE_SIZE;
 
                 paint.setColor(VOID_COLOR);
+                canvas.drawRect(officeRectangle, paint);
+            }
+            else if (OfficeArray[i] == BEETLE_TILE)
+            {
+                officeRectangle.left = officeScreenX;
+                officeRectangle.top = officeScreenY;
+                officeRectangle.right = officeScreenX + TILE_SIZE;
+                officeRectangle.bottom = officeScreenY + TILE_SIZE;
+
+                paint.setColor(BEETLE_COLOR);
                 canvas.drawRect(officeRectangle, paint);
             }
         }

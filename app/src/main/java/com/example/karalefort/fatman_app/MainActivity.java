@@ -43,21 +43,8 @@ public class MainActivity extends Activity {
     //public TextView txtfatman = (TextView) findViewById(R.id.fatmantext_id);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-
-        //setContentView(R.layout.activity_main);
-        // Font path
-        //String fontPath = "fonts/DAYPBL__";
-
-        // Loading Font Face
-        //Typeface tf = Typeface.createFromAsset(getAssets(), "fonts/Fascinate-Regular");
-        // Applying font
-        ///txtfatman.setTypeface(tf);
-
-
-
-
+        setContentView(R.layout.activity_main);
 
             final Button exitButton = (Button) findViewById(R.id.exit_id);
             exitButton.setOnClickListener(new OnClickListener() {
@@ -74,9 +61,6 @@ public class MainActivity extends Activity {
 
 
             }
-
-
-
 
 
         });
