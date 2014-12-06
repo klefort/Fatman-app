@@ -21,6 +21,7 @@ import static android.view.View.*;
 
 public class MainActivity extends Activity {
 
+        private GameView View;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +39,8 @@ public class MainActivity extends Activity {
 
             public void onClick(View v) {
                     //requestWindowFeature(Window.FEATURE_NO_TITLE);
-                    setContentView(new GameView(MainActivity.this));
+                    setContentView(new GameView(getApplicationContext(), MainActivity.this));
+                //setContentView(View);
 
             }
 
