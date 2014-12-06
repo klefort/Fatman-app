@@ -6,16 +6,17 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-
+import java.lang.Object.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Closeable;
 
 
+
 public class Office
 {
 
-    public final static int TILE_SIZE = 25;
+    public int TILE_SIZE = 20;
     public final static int OFFICE_COLUMNS = 20;
     public final static int OFFICE_ROWS = 26;
     public final static int PATH_TILE = 0;
@@ -32,8 +33,16 @@ public class Office
     private int officeScreenX;
     private int officeScreenY;
 
-    Office(Activity activity) {
+    Office(Activity activity, int mwidth, int mheight) {
+//        final double tile;
+//        tile = (mwidth / OFFICE_COLUMNS * mheight / OFFICE_ROWS);
+//
+//     int TILE_SIZE = (int)tile;
+       TILE_SIZE =(int)(mwidth / 20);
+
     }
+
+
 
     void load(Activity activity, int newLevel)
     {

@@ -5,12 +5,19 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.view.View.OnClickListener;
+import android.view.View.MeasureSpec;
 
 
 import android.graphics.Typeface;
+import android.widget.GridView;
 import android.widget.TextView;
+
+import static android.view.View.MeasureSpec.UNSPECIFIED;
+import static android.view.View.SCALE_X;
+import static android.view.View.SCALE_Y;
 
 
 
@@ -39,25 +46,36 @@ public class MainActivity extends Activity {
 
 
 
-        private GameView View;
+    private GameView View;
     //public TextView txtfatman = (TextView) findViewById(R.id.fatmantext_id);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+//        protected void onLayout (boolean changed, int left, int top, int right, int bottom)
+        //View.measure(UNSPECIFIED, UNSPECIFIED);
+//        final int width = View.getMeasuredWidth();
+//        final int height = View.getMeasuredHeight();
+        final int width = 400;
+        final int height = 400;
 
-            final Button exitButton = (Button) findViewById(R.id.exit_id);
-            exitButton.setOnClickListener(new OnClickListener() {
-                public void onClick(View v) {
-                    finish();
-                }
-            });
+
+        final Button exitButton = (Button) findViewById(R.id.exit_id);
+        exitButton.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         final Button playButton = (Button) findViewById(R.id.play_id);
         playButton.setOnClickListener(new OnClickListener() {
 
             public void onClick(View v) {
-                    //requestWindowFeature(Window.FEATURE_NO_TITLE);
-                    setContentView(new GameView(getApplicationContext(), MainActivity.this));
+               // requestWindowFeature(Window.FEATURE_NO_TITLE);
+                getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                View = new GameView(getApplicationContext(), MainActivity.this, width, height);
+                View.setFocusable(true);
+                setContentView(View);
 
 
             }
@@ -74,7 +92,7 @@ public class MainActivity extends Activity {
         });
 
 
-        }
+    }
 
 
 

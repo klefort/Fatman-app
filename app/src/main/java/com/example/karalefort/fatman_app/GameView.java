@@ -14,7 +14,7 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.hardware.SensorManager;
 import android.hardware.SensorListener;
-
+import android.widget.GridView;
 public class GameView extends View
 {
     private Bitmap fatman;
@@ -55,8 +55,8 @@ public class GameView extends View
 
     private static String gameStrings[];
     private boolean gameWarning = false;
-    private int gameCanvasWidth = 0;
-    private int gameCanvasHeight = 0;
+    public int gameCanvasWidth = 0;
+    public int gameCanvasHeight = 0;
     private int gameCanvasHalfWidth = 0;
     private int gameCanvasHalfHeight = 0;
 //    private boolean orientationPortrait = true;
@@ -70,6 +70,9 @@ public class GameView extends View
     private float gameAccelY = 0;
     private float gameAccelZ = 0;
     private float gameSensorBuffer = 0;
+
+
+
     private final SensorListener gameSensorAccelerometer = new SensorListener()
     {
         public void onSensorChanged(int sensor, float[] values)
@@ -84,9 +87,11 @@ public class GameView extends View
     };
 
 
-    public GameView(Context context, Activity activity)
+
+    public GameView(Context context, Activity activity, int mwidth, int mheight)
     {
         super(context);
+
         canvasPaint = new Paint();
         //canvasPaint = setAntiAlias(true);
 
@@ -98,7 +103,7 @@ public class GameView extends View
         beetle = BitmapFactory.decodeResource(getResources(), R.drawable.smallbeetle);
         gameSensorManager = (SensorManager) activity.getSystemService(Context.SENSOR_SERVICE);
         gameSensorManager.registerListener(gameSensorAccelerometer, SensorManager.SENSOR_ACCELEROMETER, SensorManager.SENSOR_DELAY_GAME);
-        gameOffice = new Office(gameActivity);
+        gameOffice = new Office(gameActivity, mwidth, mheight);
         gameFatman = new Fatman(this);
         gameStrings = getResources().getStringArray(R.array.gameStrings);
         changeState(GAME_START);
@@ -107,13 +112,17 @@ public class GameView extends View
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh)
     {
+
         super.onSizeChanged(w, h, oldw, oldh);
         gameCanvasWidth = w;
         gameCanvasHeight = h;
         gameCanvasHalfWidth = w / 2;
         gameCanvasHalfHeight = h / 2;
     }
-
+//    public int get_CanvasWidth()
+//    {
+//        return gameCanvasWidth;
+//    }
 
     public void gameOnEachTick()
     {
