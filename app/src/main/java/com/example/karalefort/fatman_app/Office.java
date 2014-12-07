@@ -10,6 +10,7 @@ import java.lang.Object.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Closeable;
+import java.util.ArrayList;
 
 
 
@@ -32,13 +33,18 @@ public class Office
     private int officeColumn;
     private int officeScreenX;
     private int officeScreenY;
+//    public ArrayList<Integer> beetlex = new ArrayList<Integer>();
+//    public ArrayList<Integer> beetley = new ArrayList<Integer>();
+
+//    public int beetlex;
+//    public int beetley;
 
     Office(Activity activity, int mwidth, int mheight) {
 //        final double tile;
 //        tile = (mwidth / OFFICE_COLUMNS * mheight / OFFICE_ROWS);
 //
 //     int TILE_SIZE = (int)tile;
-       TILE_SIZE =(int)(mwidth / 20);
+        TILE_SIZE =(int)(mwidth / 20);
 
     }
 
@@ -97,6 +103,8 @@ public class Office
             }
             else if (OfficeArray[i] == BEETLE_TILE)
             {
+//                beetlex[i] = officeScreenX;
+//                beetley[i] = officeScreenY;
                 officeRectangle.left = officeScreenX;
                 officeRectangle.top = officeScreenY;
                 officeRectangle.right = officeScreenX + TILE_SIZE;

@@ -20,13 +20,13 @@ public class Donut {
         this.x = x;
         this.y = y;
         this.color_id = id;
-        init();
+//        init();
     }
 
-    public void init() {
-        x = DonutRadius * 6;
-        y = DonutRadius * 6;
-    }
+//    public void init() {
+//        x = DonutRadius * 6;
+//        y = DonutRadius * 6;
+//    }
 
 
     public boolean isEaten() {

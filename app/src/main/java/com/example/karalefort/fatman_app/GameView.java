@@ -9,16 +9,26 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.hardware.Sensor;
+import android.view.Display;
 import android.view.View;
+import android.view.WindowManager;
+import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.hardware.SensorManager;
 import android.hardware.SensorListener;
 import android.widget.GridView;
+import java.util.ArrayList;
+
+
 public class GameView extends View
 {
+
+    private ArrayList<Beetle> beetleList = new ArrayList<Beetle>();
+    private ArrayList<Donut> donutList = new ArrayList<Donut>();
+
     private Bitmap fatman;
-//    private Bitmap fatman = Bitmap.createScaledBitmap(rfatman, 25, 25, true);
+    //    private Bitmap fatman = Bitmap.createScaledBitmap(rfatman, 25, 25, true);
     private Bitmap pdonut;
     private Bitmap bdonut;
     private Bitmap chocdonut;
@@ -27,15 +37,17 @@ public class GameView extends View
     private Office gameOffice;
     private Canvas gameCanvas;
     private Paint canvasPaint;
+    private Donut gameDonut;
     private Typeface gameFont = Typeface.create(Typeface.DEFAULT, Typeface.BOLD);
     private Activity gameActivity;
+    private int radiusFatman;
 
     private final static int BEFORE_BEGIN_STATE = -1;
     private final static int GAME_START = 0;
     private final static int GAME_RUNNING = 1;
     private final static int GAME_OVER = 2;
     private final static int GAME_COMPLETE = 3;
-//    private final static int GAME_LANDSCAPE = 4;
+    //    private final static int GAME_LANDSCAPE = 4;
     private static int gameCurrentState = BEFORE_BEGIN_STATE;
 
     private final static int Game_LIVES = 0;
@@ -59,7 +71,7 @@ public class GameView extends View
     public int gameCanvasHeight = 0;
     private int gameCanvasHalfWidth = 0;
     private int gameCanvasHalfHeight = 0;
-//    private boolean orientationPortrait = true;
+    //    private boolean orientationPortrait = true;
     private int gamelevel = 1;
     private long gameTotalTime = 0;
     private long levelStartTime = 0;
@@ -88,12 +100,26 @@ public class GameView extends View
 
 
 
-    public GameView(Context context, Activity activity, int mwidth, int mheight)
+    public GameView(Context context, Activity activity)
     {
+
         super(context);
 
         canvasPaint = new Paint();
         //canvasPaint = setAntiAlias(true);
+       /* DisplayMetrics dm = new DisplayMetrics();
+        createDisplayContext(Display);
+        context.getSystemService(Context.WINDOW_SERVICE);
+        this.getWindowManager().getDefaultDisplay().getMetrics(dm);
+        int mwidth=dm.widthPixels;
+        int mheight=dm.heightPixels;*/
+
+        DisplayMetrics metrics = new DisplayMetrics();
+        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        windowManager.getDefaultDisplay().getMetrics(metrics);
+//        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        int mwidth=metrics.widthPixels;
+        int mheight=metrics.heightPixels;
 
         gameActivity = activity;
         pdonut = BitmapFactory.decodeResource(getResources(), R.drawable.pinkdonutsmall);
@@ -105,6 +131,7 @@ public class GameView extends View
         gameSensorManager.registerListener(gameSensorAccelerometer, SensorManager.SENSOR_ACCELEROMETER, SensorManager.SENSOR_DELAY_GAME);
         gameOffice = new Office(gameActivity, mwidth, mheight);
         gameFatman = new Fatman(this);
+//        gameDonut = new Donut(this, 100, 100, 'c');
         gameStrings = getResources().getStringArray(R.array.gameStrings);
         changeState(GAME_START);
     }
@@ -152,12 +179,30 @@ public class GameView extends View
     {
         if (gamelevel < gameOffice.MAX_LEVELS)
         {
+            radiusFatman = 15;
             gameWarning = true;
             gamelevel++;
             gameOffice.load(gameActivity, gamelevel);
             gameFatman.init();
-        }
+            beetleList.clear();
+            donutList.clear();
+            switch (gamelevel) {
+                case 1:
+                    beetleList.add(new Beetle(this,400,200));
+                    beetleList.add(new Beetle(this,400,300));
+                    donutList.add(new Donut(this,100,500,'b'));
+                    donutList.add(new Donut(this,200,600,'c'));
+                    donutList.add(new Donut(this,200,400,'p'));
+                    break;
 
+                case 2:
+                    beetleList.add(new Beetle(this,200,100));
+                    beetleList.add(new Beetle(this,400,200));
+                    donutList.add(new Donut(this,500,300,'p'));
+                    donutList.add(new Donut(this,200,300,'c'));
+                    break;
+            }
+        }
         else {
             changeState(GAME_COMPLETE);
         }
@@ -165,30 +210,73 @@ public class GameView extends View
 
 
 
+
     public void updateFatmanPosition() {
-        if (!(gameOffice.getCellType(gameFatman.getX()+gameFatman.fatmanRadius, gameFatman.getY()) == gameOffice.VOID_TILE && gameAccelX > 0) &&
-            !(gameOffice.getCellType(gameFatman.getX()-gameFatman.fatmanRadius, gameFatman.getY()) == gameOffice.VOID_TILE && gameAccelX < 0)) {
+        if (!(gameOffice.getCellType(gameFatman.getX() + radiusFatman, gameFatman.getY()) == gameOffice.VOID_TILE && gameAccelX > 0) &&
+                !(gameOffice.getCellType(gameFatman.getX() - radiusFatman, gameFatman.getY()) == gameOffice.VOID_TILE && gameAccelX < 0)) {
 //                if (gameAccelX > gameSensorBuffer || gameAccelX < -gameSensorBuffer)
-                    gameFatman.updatePositionX(gameAccelX*2);
-            }
+            gameFatman.updatePositionX(gameAccelX*2);
+        }
 
-        if (!(gameOffice.getCellType(gameFatman.getX(), gameFatman.getY()+gameFatman.fatmanRadius) == gameOffice.VOID_TILE && gameAccelY < 0) &&
-             !(gameOffice.getCellType(gameFatman.getX(), gameFatman.getY()-gameFatman.fatmanRadius) == gameOffice.VOID_TILE && gameAccelY > 0)) {
+        if (!(gameOffice.getCellType(gameFatman.getX(), gameFatman.getY() + radiusFatman) == gameOffice.VOID_TILE && gameAccelY < 0) &&
+                !(gameOffice.getCellType(gameFatman.getX(), gameFatman.getY() - radiusFatman) == gameOffice.VOID_TILE && gameAccelY > 0)) {
 //            if (gameAccelY > gameSensorBuffer || gameAccelY < -gameSensorBuffer)
-                gameFatman.updatePositionY(gameAccelY*2);
+            gameFatman.updatePositionY(gameAccelY*2);
         }
-        if (gameOffice.getCellType(gameFatman.getX(), gameFatman.getY()) == gameOffice.BEETLE_TILE) {
-            if (gameAccelX > gameSensorBuffer || gameAccelX < -gameSensorBuffer)
-                if (gameFatman.getLives() > 0) {
-                    gameFatman.FatmanDies();
-                    gameFatman.init();
-                    gameWarning = true;
+//        if (gameOffice.getCellType(gameFatman.getX(), gameFatman.getY()) == gameOffice.BEETLE_TILE) {
+//            if (gameAccelX > gameSensorBuffer || gameAccelX < -gameSensorBuffer)
+//                if (gameFatman.getLives() > 0) {
+//                    gameFatman.FatmanDies();
+//                    gameFatman.init();
+//                    gameWarning = true;
 
+//                }
+//        }
+
+        for (int i = 0; i < beetleList.size();i++) {
+            if (gameFatman.getX() + radiusFatman > beetleList.get(i).x - beetleList.get(i).beetleRadius &&
+                    gameFatman.getX() - radiusFatman < beetleList.get(i).x + beetleList.get(i).beetleRadius)
+            {
+                if (gameFatman.getY() + radiusFatman < beetleList.get(i).y + beetleList.get(i).beetleRadius &&
+                        gameFatman.getY() - radiusFatman > beetleList.get(i).y - beetleList.get(i).beetleRadius)
+                {
+                    if (gameFatman.getLives() > 0) {
+                        gameFatman.FatmanDies();
+                        gameFatman.init();
+                        gameWarning = true;
+                    }
+                    else {
+                        gameEndTime = System.currentTimeMillis();
+                        gameTotalTime += gameEndTime - levelStartTime;
+                        changeState(GAME_OVER);
+                    }
                 }
+            }
         }
 
+//        boolean eaten = false;
+
+        for (int i = 0; i < donutList.size(); i++) {
+
+                if (gameFatman.getX() + radiusFatman > donutList.get(i).x - donutList.get(i).DonutRadius &&
+                        gameFatman.getX() - radiusFatman < donutList.get(i).x + donutList.get(i).DonutRadius) {
+                    if (gameFatman.getY() + radiusFatman < donutList.get(i).y + donutList.get(i).DonutRadius &&
+                            gameFatman.getY() - radiusFatman > donutList.get(i).y - donutList.get(i).DonutRadius) {
+
+                        radiusFatman += 15;
+                        donutList.remove(i);
 
 
+                        if (donutList.isEmpty()) {
+                            startLevel();
+                        }
+                        break;
+//                        size--;
+//                        eaten = true;
+                    }
+                }
+
+        }
 //            else {
 //                gameEndTime = System.currentTimeMillis();
 //                gameTotalTime += gameEndTime - levelStartTime;
@@ -208,7 +296,7 @@ public class GameView extends View
         if (event.getAction() == MotionEvent.ACTION_DOWN)
         {
             if (gameCurrentState == GAME_OVER || gameCurrentState == GAME_COMPLETE)
-            gameCurrentState = GAME_START;
+                gameCurrentState = GAME_START;
             else if (gameCurrentState == GAME_RUNNING) {
                 gameWarning = false;
                 levelStartTime = System.currentTimeMillis();
@@ -236,18 +324,31 @@ public class GameView extends View
 //
 //    }
 
-   @Override
+    @Override
     protected void onDraw(Canvas canvas) {
-       gameCanvas = canvas;
-       canvasPaint.setColor(Color.BLACK);
-       gameCanvas.drawRect(0, 0, gameCanvasWidth, gameCanvasHeight, canvasPaint);
+        gameCanvas = canvas;
+        canvasPaint.setColor(Color.BLACK);
+        gameCanvas.drawRect(0, 0, gameCanvasWidth, gameCanvasHeight, canvasPaint);
         switch (gameCurrentState) {
             case GAME_RUNNING:
                 gameOffice.draw(gameCanvas, canvasPaint);
                 //gameFatman.draw(gameCanvas, canvasPaint);
                 //canvas.drawColor(Color.WHITE);
-               canvas.drawBitmap(fatman, Fatman.x - gameFatman.fatmanRadius, Fatman.y - gameFatman.fatmanRadius, null);
-                drawMesseges();
+                canvas.drawBitmap(fatman, Fatman.x - gameFatman.fatmanRadius, Fatman.y - gameFatman.fatmanRadius, null);
+//                canvas.drawBitmap(pdonut, gameDonut.x, gameDonut.y, null);
+//                canvas.drawBitmap(beetle, gameOffice.beetlex, gameOffice.beetley, null);
+                for (int i = 0; i < beetleList.size();i++) {
+                    canvas.drawBitmap(beetle, beetleList.get(i).x - beetleList.get(i).beetleRadius, beetleList.get(i).y - beetleList.get(i).beetleRadius, null);
+                }
+                for (int i = 0; i < donutList.size();i++) {
+                    if (donutList.get(i).color_id == 'p')
+                    canvas.drawBitmap(pdonut, donutList.get(i).x - donutList.get(i).DonutRadius, donutList.get(i).y - donutList.get(i).DonutRadius, null);
+                    if (donutList.get(i).color_id == 'c')
+                        canvas.drawBitmap(chocdonut, donutList.get(i).x - donutList.get(i).DonutRadius, donutList.get(i).y - donutList.get(i).DonutRadius, null);
+                    if (donutList.get(i).color_id == 'b')
+                        canvas.drawBitmap(bdonut, donutList.get(i).x - donutList.get(i).DonutRadius, donutList.get(i).y - donutList.get(i).DonutRadius, null);
+                }
+                drawMesseges();/**/
                 break;
 
             case GAME_OVER:

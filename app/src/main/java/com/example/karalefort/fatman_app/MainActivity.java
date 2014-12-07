@@ -1,7 +1,9 @@
 package com.example.karalefort.fatman_app;
 
 import android.app.Activity;
+import android.opengl.ETC1;
 import android.os.Bundle;
+import android.text.Layout;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -9,15 +11,17 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.view.View.OnClickListener;
 import android.view.View.MeasureSpec;
-
-
 import android.graphics.Typeface;
 import android.widget.GridView;
 import android.widget.TextView;
-
+import java.nio.Buffer;
+import java.nio.IntBuffer;
+import static android.opengl.ETC1.getWidth;
+import static android.opengl.ETC1.getHeight;
 import static android.view.View.MeasureSpec.UNSPECIFIED;
 import static android.view.View.SCALE_X;
 import static android.view.View.SCALE_Y;
+
 
 
 
@@ -45,19 +49,20 @@ import static android.view.View.SCALE_Y;
 public class MainActivity extends Activity {
 
 
-
     private GameView View;
+
     //public TextView txtfatman = (TextView) findViewById(R.id.fatmantext_id);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 //        protected void onLayout (boolean changed, int left, int top, int right, int bottom)
         //View.measure(UNSPECIFIED, UNSPECIFIED);
 //        final int width = View.getMeasuredWidth();
 //        final int height = View.getMeasuredHeight();
-        final int width = 400;
-        final int height = 400;
+//        final int width = ETC1.getWidth(IntBuffer);
+//        final int height = ETC1.getHeight(IntBuffer);
 
 
         final Button exitButton = (Button) findViewById(R.id.exit_id);
@@ -73,8 +78,9 @@ public class MainActivity extends Activity {
             public void onClick(View v) {
                // requestWindowFeature(Window.FEATURE_NO_TITLE);
                 getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-                View = new GameView(getApplicationContext(), MainActivity.this, width, height);
+                View = new GameView(getApplicationContext(), MainActivity.this);
                 View.setFocusable(true);
+
                 setContentView(View);
 
 
@@ -87,7 +93,6 @@ public class MainActivity extends Activity {
         howtoplayButton.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 setContentView(new howtoplayView(getApplicationContext(), MainActivity.this));
-
             }
         });
 
@@ -118,7 +123,6 @@ public class MainActivity extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
-
 
 
 

@@ -31,10 +31,14 @@ public class Fatman
 
     public void init()
     {
-        x = fatmanRadius * 6;
-        y = fatmanRadius * 6;
+        x = fatmanRadius * 3;
+        y = fatmanRadius * 3;
     }
 
+    public void getFat()
+    {
+        fatmanRadius += 15;
+    }
 
     public void updatePositionX(float newX)
     {
