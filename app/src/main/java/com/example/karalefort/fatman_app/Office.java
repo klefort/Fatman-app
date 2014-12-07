@@ -17,7 +17,8 @@ import java.util.ArrayList;
 public class Office
 {
 
-    public int TILE_SIZE = 20;
+    public int TILE_SIZEX = 20;
+    public int TILE_SIZEY = 20;
     public final static int OFFICE_COLUMNS = 20;
     public final static int OFFICE_ROWS = 26;
     public final static int PATH_TILE = 0;
@@ -44,7 +45,8 @@ public class Office
 //        tile = (mwidth / OFFICE_COLUMNS * mheight / OFFICE_ROWS);
 //
 //     int TILE_SIZE = (int)tile;
-        TILE_SIZE =(int)(mwidth / 20);
+        TILE_SIZEX =(int)(mwidth / OFFICE_COLUMNS);
+        TILE_SIZEY =(int)(mheight / (OFFICE_ROWS + 6));
 
     }
 
@@ -78,25 +80,25 @@ public class Office
         {
             officeRow = i / OFFICE_COLUMNS;
             officeColumn = i % OFFICE_COLUMNS;
-            officeScreenX = officeColumn * TILE_SIZE;
-            officeScreenY = officeRow * TILE_SIZE;
+            officeScreenX = officeColumn * TILE_SIZEX;
+            officeScreenY = officeRow * TILE_SIZEY;
             paint.setColor(Color.CYAN);
             if (OfficeArray[i] == PATH_TILE)
             {
-                canvas.drawRect(officeScreenX, officeScreenY, officeScreenX + TILE_SIZE, officeScreenY + TILE_SIZE, paint);
+                canvas.drawRect(officeScreenX, officeScreenY, officeScreenX + TILE_SIZEX, officeScreenY + TILE_SIZEY, paint);
             }
             else if (OfficeArray[i] == EXIT_TILE)
             {
                 paint.setColor(Color.RED);
-                canvas.drawRect(officeScreenX, officeScreenY, officeScreenX + TILE_SIZE, officeScreenY + TILE_SIZE, paint);
+                canvas.drawRect(officeScreenX, officeScreenY, officeScreenX + TILE_SIZEX, officeScreenY + TILE_SIZEY, paint);
                 //paint.setColor(Color.GREEN);
             }
             else if (OfficeArray[i] == VOID_TILE)
             {
                 officeRectangle.left = officeScreenX;
                 officeRectangle.top = officeScreenY;
-                officeRectangle.right = officeScreenX + TILE_SIZE;
-                officeRectangle.bottom = officeScreenY + TILE_SIZE;
+                officeRectangle.right = officeScreenX + TILE_SIZEX;
+                officeRectangle.bottom = officeScreenY + TILE_SIZEY;
 
                 paint.setColor(VOID_COLOR);
                 canvas.drawRect(officeRectangle, paint);
@@ -107,8 +109,8 @@ public class Office
 //                beetley[i] = officeScreenY;
                 officeRectangle.left = officeScreenX;
                 officeRectangle.top = officeScreenY;
-                officeRectangle.right = officeScreenX + TILE_SIZE;
-                officeRectangle.bottom = officeScreenY + TILE_SIZE;
+                officeRectangle.right = officeScreenX + TILE_SIZEX;
+                officeRectangle.bottom = officeScreenY + TILE_SIZEY;
 
                 paint.setColor(BEETLE_COLOR);
                 canvas.drawRect(officeRectangle, paint);
@@ -118,8 +120,8 @@ public class Office
 
     public int getCellType(int x, int y)
     {
-        int mCellCol = x / TILE_SIZE;
-        int mCellRow = y / TILE_SIZE;
+        int mCellCol = x / TILE_SIZEX;
+        int mCellRow = y / TILE_SIZEY;
         int mLocation = 0;
         if (mCellRow > 0)
         {

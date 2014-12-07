@@ -15,7 +15,7 @@ import android.graphics.Bitmap;
 
 public class Fatman
 {
-    //private int fatmanColor = Color.YELLOW; //delete later
+    private int fatmanColor = Color.YELLOW; //delete later
     public static int x = 10;
     public static int y = 10;
     public int fatmanRadius = 15;
@@ -35,10 +35,7 @@ public class Fatman
         y = fatmanRadius * 3;
     }
 
-    public void getFat()
-    {
-        fatmanRadius += 15;
-    }
+
 
     public void updatePositionX(float newX)
     {
@@ -92,10 +89,10 @@ public class Fatman
     }*/
 
 
-  /* public void draw(Canvas canvas, Paint paint)
+   public void draw(Canvas canvas, Paint paint)
     {
         paint.setColor(fatmanColor);
         canvas.drawCircle(x, y, fatmanRadius, paint);
-    }*/
+    }
 
 }

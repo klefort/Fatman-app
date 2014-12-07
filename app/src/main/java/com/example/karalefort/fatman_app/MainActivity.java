@@ -1,6 +1,9 @@
 package com.example.karalefort.fatman_app;
 
 import android.app.Activity;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Canvas;
 import android.opengl.ETC1;
 import android.os.Bundle;
 import android.text.Layout;
@@ -21,8 +24,7 @@ import static android.opengl.ETC1.getHeight;
 import static android.view.View.MeasureSpec.UNSPECIFIED;
 import static android.view.View.SCALE_X;
 import static android.view.View.SCALE_Y;
-
-
+import android.text.*;
 
 
 
@@ -83,7 +85,6 @@ public class MainActivity extends Activity {
 
                 setContentView(View);
 
-
             }
 
 
@@ -93,9 +94,23 @@ public class MainActivity extends Activity {
         howtoplayButton.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 setContentView(new howtoplayView(getApplicationContext(), MainActivity.this));
+                View.setFocusable(true);
+                /*@Override
+                {
+                    Canvas howtoplayCanvas;
+                    Paint howtoplayPaint;
+                    howtoplayPaint.setColor(Color.WHITE);
+                    String[] howtoplayStrings = getResources().getStringArray(R.array.gameStrings);
+
+
+                    howtoplayCanvas.drawText("hey");
+                    howtoplayPaint.setTextAlign(Paint.Align.RIGHT);
+                    howtoplayCanvas.drawText(howtoplayStrings[1]);
+                    howtoplayPaint.setTextAlign(Paint.Align.RIGHT);
+                    setContentView(View);
+                }*/
             }
         });
-
 
     }
 

@@ -19,13 +19,15 @@ import android.hardware.SensorManager;
 import android.hardware.SensorListener;
 import android.widget.GridView;
 import java.util.ArrayList;
-
+import android.graphics.Matrix;
+import android.media.MediaPlayer;
 
 public class GameView extends View
 {
 
     private ArrayList<Beetle> beetleList = new ArrayList<Beetle>();
     private ArrayList<Donut> donutList = new ArrayList<Donut>();
+    MediaPlayer munch = MediaPlayer.create(getContext(), R.raw.eating);
 
     private Bitmap fatman;
     //    private Bitmap fatman = Bitmap.createScaledBitmap(rfatman, 25, 25, true);
@@ -40,7 +42,6 @@ public class GameView extends View
     private Donut gameDonut;
     private Typeface gameFont = Typeface.create(Typeface.DEFAULT, Typeface.BOLD);
     private Activity gameActivity;
-    private int radiusFatman;
 
     private final static int BEFORE_BEGIN_STATE = -1;
     private final static int GAME_START = 0;
@@ -73,9 +74,10 @@ public class GameView extends View
     private int gameCanvasHalfHeight = 0;
     //    private boolean orientationPortrait = true;
     private int gamelevel = 1;
-    private long gameTotalTime = 0;
+    private long gameTotalTime = 60;
     private long levelStartTime = 0;
     private long gameEndTime = 0;
+
 
     private SensorManager gameSensorManager;
     private float gameAccelX = 0;
@@ -125,7 +127,7 @@ public class GameView extends View
         pdonut = BitmapFactory.decodeResource(getResources(), R.drawable.pinkdonutsmall);
         bdonut = BitmapFactory.decodeResource(getResources(), R.drawable.bluedonutsmall);
         chocdonut = BitmapFactory.decodeResource(getResources(), R.drawable.chocdonutsmall);
-        fatman = BitmapFactory.decodeResource(getResources(), R.drawable.fatmantinyopenmouth);
+        fatman = BitmapFactory.decodeResource(getResources(), R.drawable.fatman);
         beetle = BitmapFactory.decodeResource(getResources(), R.drawable.smallbeetle);
         gameSensorManager = (SensorManager) activity.getSystemService(Context.SENSOR_SERVICE);
         gameSensorManager.registerListener(gameSensorAccelerometer, SensorManager.SENSOR_ACCELEROMETER, SensorManager.SENSOR_DELAY_GAME);
@@ -179,7 +181,7 @@ public class GameView extends View
     {
         if (gamelevel < gameOffice.MAX_LEVELS)
         {
-            radiusFatman = 15;
+            gameFatman.fatmanRadius = 15;
             gameWarning = true;
             gamelevel++;
             gameOffice.load(gameActivity, gamelevel);
@@ -193,6 +195,9 @@ public class GameView extends View
                     donutList.add(new Donut(this,100,500,'b'));
                     donutList.add(new Donut(this,200,600,'c'));
                     donutList.add(new Donut(this,200,400,'p'));
+                    donutList.add(new Donut(this,200,500,'p'));
+
+
                     break;
 
                 case 2:
@@ -212,17 +217,28 @@ public class GameView extends View
 
 
     public void updateFatmanPosition() {
-        if (!(gameOffice.getCellType(gameFatman.getX() + radiusFatman, gameFatman.getY()) == gameOffice.VOID_TILE && gameAccelX > 0) &&
-                !(gameOffice.getCellType(gameFatman.getX() - radiusFatman, gameFatman.getY()) == gameOffice.VOID_TILE && gameAccelX < 0)) {
+        if (!(gameOffice.getCellType(gameFatman.getX() + gameFatman.fatmanRadius, gameFatman.getY()) == gameOffice.VOID_TILE && gameAccelX > 0) &&
+                !(gameOffice.getCellType(gameFatman.getX() - gameFatman.fatmanRadius, gameFatman.getY()) == gameOffice.VOID_TILE && gameAccelX < 0) &&
+                !((gameOffice.getCellType(gameFatman.getX() + gameFatman.fatmanRadius, gameFatman.getY() + (int) (gameFatman.fatmanRadius * .8)) == gameOffice.VOID_TILE && gameAccelX > 0) ||
+                        (gameOffice.getCellType(gameFatman.getX() + gameFatman.fatmanRadius, gameFatman.getY() - (int) (gameFatman.fatmanRadius * .8)) == gameOffice.VOID_TILE && gameAccelX > 0)) &&
+                !((gameOffice.getCellType(gameFatman.getX() - gameFatman.fatmanRadius, gameFatman.getY() - (int) (gameFatman.fatmanRadius * .8)) == gameOffice.VOID_TILE && gameAccelX < 0) ||
+                        (gameOffice.getCellType(gameFatman.getX() - gameFatman.fatmanRadius, gameFatman.getY() + (int) (gameFatman.fatmanRadius * .8)) == gameOffice.VOID_TILE && gameAccelX < 0))) {
 //                if (gameAccelX > gameSensorBuffer || gameAccelX < -gameSensorBuffer)
-            gameFatman.updatePositionX(gameAccelX*2);
+            gameFatman.updatePositionX(gameAccelX * 2);
         }
 
-        if (!(gameOffice.getCellType(gameFatman.getX(), gameFatman.getY() + radiusFatman) == gameOffice.VOID_TILE && gameAccelY < 0) &&
-                !(gameOffice.getCellType(gameFatman.getX(), gameFatman.getY() - radiusFatman) == gameOffice.VOID_TILE && gameAccelY > 0)) {
+        if (!(gameOffice.getCellType(gameFatman.getX(), gameFatman.getY() + gameFatman.fatmanRadius) == gameOffice.VOID_TILE && gameAccelY < 0) &&
+                !(gameOffice.getCellType(gameFatman.getX(), gameFatman.getY() - gameFatman.fatmanRadius) == gameOffice.VOID_TILE && gameAccelY > 0)
+                &&
+                !((gameOffice.getCellType(gameFatman.getX() + (int) (gameFatman.fatmanRadius * 0.8), gameFatman.getY() + gameFatman.fatmanRadius) == gameOffice.VOID_TILE && gameAccelY < 0) ||
+                        (gameOffice.getCellType(gameFatman.getX() - (int) (gameFatman.fatmanRadius * .8), gameFatman.getY() + gameFatman.fatmanRadius) == gameOffice.VOID_TILE && gameAccelY < 0)) &&
+                !((gameOffice.getCellType(gameFatman.getX() + (int) (gameFatman.fatmanRadius * .8), gameFatman.getY() - gameFatman.fatmanRadius) == gameOffice.VOID_TILE && gameAccelY > 0) ||
+                        (gameOffice.getCellType(gameFatman.getX() - (int) (gameFatman.fatmanRadius * .8), gameFatman.getY() - gameFatman.fatmanRadius) == gameOffice.VOID_TILE && gameAccelY > 0))) {
 //            if (gameAccelY > gameSensorBuffer || gameAccelY < -gameSensorBuffer)
-            gameFatman.updatePositionY(gameAccelY*2);
+            gameFatman.updatePositionY(gameAccelY * 2);
         }
+//        else
+//            gameFatman.updatePositionY(-gameAccelY*3);
 //        if (gameOffice.getCellType(gameFatman.getX(), gameFatman.getY()) == gameOffice.BEETLE_TILE) {
 //            if (gameAccelX > gameSensorBuffer || gameAccelX < -gameSensorBuffer)
 //                if (gameFatman.getLives() > 0) {
@@ -233,19 +249,21 @@ public class GameView extends View
 //                }
 //        }
 
-        for (int i = 0; i < beetleList.size();i++) {
-            if (gameFatman.getX() + radiusFatman > beetleList.get(i).x - beetleList.get(i).beetleRadius &&
-                    gameFatman.getX() - radiusFatman < beetleList.get(i).x + beetleList.get(i).beetleRadius)
-            {
-                if (gameFatman.getY() + radiusFatman < beetleList.get(i).y + beetleList.get(i).beetleRadius &&
-                        gameFatman.getY() - radiusFatman > beetleList.get(i).y - beetleList.get(i).beetleRadius)
-                {
+        for (int i = 0; i < beetleList.size(); i++) {
+            if ((gameFatman.getX() + gameFatman.fatmanRadius > beetleList.get(i).x + beetleList.get(i).beetleRadius &&
+                    gameFatman.getX() - gameFatman.fatmanRadius < beetleList.get(i).x + beetleList.get(i).beetleRadius) ||
+                    (gameFatman.getX() + gameFatman.fatmanRadius > beetleList.get(i).x - beetleList.get(i).beetleRadius &&
+                            gameFatman.getX() - gameFatman.fatmanRadius < beetleList.get(i).x - beetleList.get(i).beetleRadius)) {
+                if ((gameFatman.getY() + gameFatman.fatmanRadius < beetleList.get(i).y + beetleList.get(i).beetleRadius &&
+                        gameFatman.getY() + gameFatman.fatmanRadius > beetleList.get(i).y - beetleList.get(i).beetleRadius) ||
+                        (gameFatman.getY() + gameFatman.fatmanRadius > beetleList.get(i).y + beetleList.get(i).beetleRadius &&
+                                gameFatman.getY() - gameFatman.fatmanRadius < beetleList.get(i).y + beetleList.get(i).beetleRadius)) {
+
                     if (gameFatman.getLives() > 0) {
                         gameFatman.FatmanDies();
                         gameFatman.init();
                         gameWarning = true;
-                    }
-                    else {
+                    } else {
                         gameEndTime = System.currentTimeMillis();
                         gameTotalTime += gameEndTime - levelStartTime;
                         changeState(GAME_OVER);
@@ -256,32 +274,41 @@ public class GameView extends View
 
 //        boolean eaten = false;
 
+
         for (int i = 0; i < donutList.size(); i++) {
 
-                if (gameFatman.getX() + radiusFatman > donutList.get(i).x - donutList.get(i).DonutRadius &&
-                        gameFatman.getX() - radiusFatman < donutList.get(i).x + donutList.get(i).DonutRadius) {
-                    if (gameFatman.getY() + radiusFatman < donutList.get(i).y + donutList.get(i).DonutRadius &&
-                            gameFatman.getY() - radiusFatman > donutList.get(i).y - donutList.get(i).DonutRadius) {
+            if ((gameFatman.getX() + gameFatman.fatmanRadius > donutList.get(i).x + donutList.get(i).DonutRadius &&
+                    gameFatman.getX() - gameFatman.fatmanRadius < donutList.get(i).x + donutList.get(i).DonutRadius) ||
+                    (gameFatman.getX() + gameFatman.fatmanRadius > donutList.get(i).x - donutList.get(i).DonutRadius &&
+                            gameFatman.getX() - gameFatman.fatmanRadius < donutList.get(i).x - donutList.get(i).DonutRadius)) {
+                if ((gameFatman.getY() + gameFatman.fatmanRadius < donutList.get(i).y + donutList.get(i).DonutRadius &&
+                        gameFatman.getY() + gameFatman.fatmanRadius > donutList.get(i).y - donutList.get(i).DonutRadius) ||
+                        (gameFatman.getY() + gameFatman.fatmanRadius > donutList.get(i).y + donutList.get(i).DonutRadius &&
+                                gameFatman.getY() - gameFatman.fatmanRadius < donutList.get(i).y + donutList.get(i).DonutRadius)) {
 
-                        radiusFatman += 15;
-                        donutList.remove(i);
+                    gameFatman.fatmanRadius += 10;
+                    donutList.remove(i);
+                    munch.start();
 
 
-                        if (donutList.isEmpty()) {
-                            startLevel();
-                        }
-                        break;
+                    if (donutList.isEmpty()) {
+                        startLevel();
+                    }
+                    break;
 //                        size--;
 //                        eaten = true;
-                    }
                 }
+            }
+            gameEndTime = System.currentTimeMillis();
+            gameTotalTime -= gameEndTime - levelStartTime;
+        /*else{
+            gameEndTime = System.currentTimeMillis();
+            gameTotalTime -= gameEndTime - levelStartTime;
+            changeState(GAME_OVER);
+        }*/
+    }
 
-        }
-//            else {
-//                gameEndTime = System.currentTimeMillis();
-//                gameTotalTime += gameEndTime - levelStartTime;
-//                changeState(GAME_OVER);
-//            }
+//
 
 //        } else if (gameOffice.getCellType(gameFatman.getX(), gameFatman.getY()) == gameOffice.EXIT_TILE) {
 //            gameEndTime = System.currentTimeMillis();
@@ -313,19 +340,15 @@ public class GameView extends View
         return true;
     }
 
-    //    @Override
-//    protected void onDraw(Canvas canvas)
-//    {
-//        canvas.drawColor(Color.WHITE);
-//        canvas.drawBitmap(fatman, Fatman.x, Fatman.y, null);
-//        canvas.drawBitmap(pdonut, pinkDonut.x, pinkDonut.y, null);
-//        canvas.drawBitmap(bdonut, blueDonut.x, blueDonut.y, null);
-//        canvas.drawBitmap(chocdonut, chocDonut.x, chocDonut.y, null);
-//
-//    }
+
+
 
     @Override
     protected void onDraw(Canvas canvas) {
+
+        int newwidth = 2 * gameFatman.fatmanRadius;
+        int newheight =  2 * gameFatman.fatmanRadius;
+        Bitmap resizedfatman = Bitmap.createScaledBitmap(fatman, newwidth, newheight, false);
         gameCanvas = canvas;
         canvasPaint.setColor(Color.BLACK);
         gameCanvas.drawRect(0, 0, gameCanvasWidth, gameCanvasHeight, canvasPaint);
@@ -334,15 +357,15 @@ public class GameView extends View
                 gameOffice.draw(gameCanvas, canvasPaint);
                 //gameFatman.draw(gameCanvas, canvasPaint);
                 //canvas.drawColor(Color.WHITE);
-                canvas.drawBitmap(fatman, Fatman.x - gameFatman.fatmanRadius, Fatman.y - gameFatman.fatmanRadius, null);
-//                canvas.drawBitmap(pdonut, gameDonut.x, gameDonut.y, null);
-//                canvas.drawBitmap(beetle, gameOffice.beetlex, gameOffice.beetley, null);
+
+                 canvas.drawBitmap(resizedfatman, gameFatman.getX()- resizedfatman.getWidth()/2 , gameFatman.getY()- resizedfatman.getHeight()/2, null);
+
                 for (int i = 0; i < beetleList.size();i++) {
                     canvas.drawBitmap(beetle, beetleList.get(i).x - beetleList.get(i).beetleRadius, beetleList.get(i).y - beetleList.get(i).beetleRadius, null);
                 }
                 for (int i = 0; i < donutList.size();i++) {
                     if (donutList.get(i).color_id == 'p')
-                    canvas.drawBitmap(pdonut, donutList.get(i).x - donutList.get(i).DonutRadius, donutList.get(i).y - donutList.get(i).DonutRadius, null);
+                        canvas.drawBitmap(pdonut, donutList.get(i).x - donutList.get(i).DonutRadius, donutList.get(i).y - donutList.get(i).DonutRadius, null);
                     if (donutList.get(i).color_id == 'c')
                         canvas.drawBitmap(chocdonut, donutList.get(i).x - donutList.get(i).DonutRadius, donutList.get(i).y - donutList.get(i).DonutRadius, null);
                     if (donutList.get(i).color_id == 'b')
@@ -367,7 +390,7 @@ public class GameView extends View
     }
 
     public void drawMesseges() {
-        canvasPaint.setColor(Color.GREEN);
+        canvasPaint.setColor(Color.WHITE);
         canvasPaint.setTextAlign(Paint.Align.LEFT);
         gameCanvas.drawText(gameStrings[Game_TIME] + ": " + (gameTotalTime / 1000), fontTextPadding, gameHudTextY,
                 canvasPaint);
@@ -378,8 +401,7 @@ public class GameView extends View
                 gameHudTextY, canvasPaint);
         if (gameWarning) {
             canvasPaint.setColor(Color.BLUE);
-            gameCanvas
-                    .drawRect(0, gameCanvasHalfHeight - 15, gameCanvasWidth, gameCanvasHalfHeight + 5,
+            gameCanvas.drawRect(0, gameCanvasHalfHeight - 15, gameCanvasWidth, gameCanvasHalfHeight + 5,
                             canvasPaint);
             canvasPaint.setColor(Color.WHITE);
             canvasPaint.setTextAlign(Paint.Align.CENTER);
@@ -406,9 +428,9 @@ public class GameView extends View
     public void drawGameComplete() {
         canvasPaint.setColor(Color.WHITE);
         canvasPaint.setTextAlign(Paint.Align.CENTER);
-        gameCanvas.drawText(gameStrings[GAME_COMPLETE], gameCanvasHalfWidth, gameCanvasHalfHeight, canvasPaint);
-        gameCanvas.drawText(gameStrings[Game_TOTAL_TIME] + ": " + (gameTotalTime / 100) + "s",
-                gameCanvasHalfWidth, gameCanvasHalfHeight + canvasPaint.getFontSpacing(), canvasPaint);
+        gameCanvas.drawText(gameStrings[GAME_COMPLETE], 50, 28*20, canvasPaint);
+        gameCanvas.drawText(gameStrings[Game_TOTAL_TIME] + ": " + (gameTotalTime / 1000) + "s",
+                70, 28*20, canvasPaint);
         gameCanvas.drawText(gameStrings[Game_RESTART], gameCanvasHalfWidth, gameCanvasHeight
                 - (canvasPaint.getFontSpacing() * 3), canvasPaint);
     }
