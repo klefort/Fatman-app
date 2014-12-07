@@ -20,7 +20,7 @@ public class Office
     public int TILE_SIZEX = 20;
     public int TILE_SIZEY = 20;
     public final static int OFFICE_COLUMNS = 20;
-    public final static int OFFICE_ROWS = 26;
+    public final static int OFFICE_ROWS = 32;
     public final static int PATH_TILE = 0;
     public final static int VOID_TILE = 1;
     public final static int EXIT_TILE = 2;
@@ -46,7 +46,7 @@ public class Office
 //
 //     int TILE_SIZE = (int)tile;
         TILE_SIZEX =(int)(mwidth / OFFICE_COLUMNS);
-        TILE_SIZEY =(int)(mheight / (OFFICE_ROWS + 6));
+        TILE_SIZEY =(int)(mheight / (OFFICE_ROWS + 4));
 
     }
 
@@ -65,7 +65,7 @@ public class Office
             for (int i = 0; i < OfficeArray.length; i++) {
                 OfficeArray[i] = Character.getNumericValue(is.read());
                 is.read();
-                is.read();
+//                is.read();
             }
         } catch (Exception e) {
 

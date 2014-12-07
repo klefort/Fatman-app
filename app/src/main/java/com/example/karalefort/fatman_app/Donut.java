@@ -15,11 +15,12 @@ public class Donut {
     private View GameView;
     public boolean eaten = false;
 
-    public Donut(View view, int x, int y, char id) {
+    public Donut(View view, int x, int y, char id, int mwidth) {
         this.GameView = view;
-        this.x = x;
-        this.y = y;
+        this.x = x- (mwidth/40);
+        this.y = y-(mwidth/40);
         this.color_id = id;
+        this.DonutRadius = mwidth/40;
 //        init();
     }
 

@@ -16,23 +16,26 @@ import android.graphics.Bitmap;
 public class Fatman
 {
     private int fatmanColor = Color.YELLOW; //delete later
-    public static int x = 10;
-    public static int y = 10;
+    public static int x = 100;
+    public static int y = 100;
     public int fatmanRadius = 15;
     private View GameView;
     public int gameLives = 5;
-    public Fatman (View view)
+    public Fatman (View view, int mwidth, int mheight)
     {
         this.GameView = view;
-        init();
+        init(x, y,mwidth);
 
     }
 
 
-    public void init()
+    public void init(int x, int y, int mwidth)
     {
-        x = fatmanRadius * 3;
-        y = fatmanRadius * 3;
+        this.x = x;
+        this.y = y;
+        fatmanRadius = mwidth/40;
+
+
     }
 
 

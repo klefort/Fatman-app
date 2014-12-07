@@ -62,7 +62,8 @@ public class GameView extends View
     private final static int Game_GAME_OVER_MSG_B = 8;
     private final static int Game_RESTART = 9;
 //    private final static int Game_LANDSCAPE_MODE = 10;
-
+    public int mheight = 0;
+    public int mwidth = 0;
     private int fontTextPadding = 10;
     private int gameHudTextY = 440;
 
@@ -120,10 +121,11 @@ public class GameView extends View
         WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         windowManager.getDefaultDisplay().getMetrics(metrics);
 //        getWindowManager().getDefaultDisplay().getMetrics(dm);
-        int mwidth=metrics.widthPixels;
-        int mheight=metrics.heightPixels;
+        mwidth=metrics.widthPixels;
+        mheight=metrics.heightPixels;
 
         gameActivity = activity;
+
         pdonut = BitmapFactory.decodeResource(getResources(), R.drawable.pinkdonutsmall);
         bdonut = BitmapFactory.decodeResource(getResources(), R.drawable.bluedonutsmall);
         chocdonut = BitmapFactory.decodeResource(getResources(), R.drawable.chocdonutsmall);
@@ -132,7 +134,7 @@ public class GameView extends View
         gameSensorManager = (SensorManager) activity.getSystemService(Context.SENSOR_SERVICE);
         gameSensorManager.registerListener(gameSensorAccelerometer, SensorManager.SENSOR_ACCELEROMETER, SensorManager.SENSOR_DELAY_GAME);
         gameOffice = new Office(gameActivity, mwidth, mheight);
-        gameFatman = new Fatman(this);
+        gameFatman = new Fatman(this, mwidth, mheight);
 //        gameDonut = new Donut(this, 100, 100, 'c');
         gameStrings = getResources().getStringArray(R.array.gameStrings);
         changeState(GAME_START);
@@ -181,30 +183,49 @@ public class GameView extends View
     {
         if (gamelevel < gameOffice.MAX_LEVELS)
         {
-            gameFatman.fatmanRadius = 15;
+            gameFatman.fatmanRadius = mwidth/(40);
             gameWarning = true;
             gamelevel++;
             gameOffice.load(gameActivity, gamelevel);
-            gameFatman.init();
             beetleList.clear();
             donutList.clear();
+            gameFatman.init((mwidth/20)*5, (mheight/36)*4,mwidth);
             switch (gamelevel) {
                 case 1:
-                    beetleList.add(new Beetle(this,400,200));
-                    beetleList.add(new Beetle(this,400,300));
-                    donutList.add(new Donut(this,100,500,'b'));
-                    donutList.add(new Donut(this,200,600,'c'));
-                    donutList.add(new Donut(this,200,400,'p'));
-                    donutList.add(new Donut(this,200,500,'p'));
 
+                    donutList.add(new Donut(this, (mwidth/20)*12, (mheight/36)*4, 'p', mwidth));
+                    donutList.add(new Donut(this, (mwidth/20)*16, (mheight/36)*4,'p', mwidth));
+                    donutList.add(new Donut(this, (mwidth/20)*2, (mheight/36)*16, 'p',mwidth));
+                    donutList.add(new Donut(this, (mwidth/20)*4, (mheight/36)*16, 'p',mwidth));
+                    donutList.add(new Donut(this, (mwidth/20)*7, (mheight/36)*15, 'p',mwidth));
+                    donutList.add(new Donut(this, (mwidth/20)*13, (mheight/36)*23,'p', mwidth));
+                    donutList.add(new Donut(this, (mwidth/20)*18, (mheight/36)*23,'p', mwidth));
+                    donutList.add(new Donut(this, (mwidth/20)*18, (mheight/36)*30,'p', mwidth));
 
+                    beetleList.add(new Beetle(this, (mwidth/20)*2, (mheight/36)*2, mwidth));
+                    beetleList.add(new Beetle(this, (mwidth/20)*8, (mheight/36)*2, mwidth));
+                    beetleList.add(new Beetle(this, (mwidth/20)*19, (mheight/36)*4, mwidth));
+                    beetleList.add(new Beetle(this, (mwidth/20)*19, (mheight/36)*22, mwidth));
+                    beetleList.add(new Beetle(this, (mwidth/20)*2, (mheight/36)*31, mwidth));
+                    beetleList.add(new Beetle(this, (mwidth/20)*16, (mheight/36)*22, mwidth));
                     break;
 
                 case 2:
-                    beetleList.add(new Beetle(this,200,100));
-                    beetleList.add(new Beetle(this,400,200));
-                    donutList.add(new Donut(this,500,300,'p'));
-                    donutList.add(new Donut(this,200,300,'c'));
+                    donutList.add(new Donut(this, (mwidth/20)* 3, (mheight/36)* 14, 'p',mwidth));
+                    donutList.add(new Donut(this, (mwidth/20)* 8, (mheight/36)*5 , 'b',mwidth));
+                    donutList.add(new Donut(this, (mwidth/20)* 6, (mheight/36)* 29, 'c',mwidth));
+                    donutList.add(new Donut(this, (mwidth/20)* 12, (mheight/36)* 27, 'p',mwidth));
+                    donutList.add(new Donut(this, (mwidth/20)* 13, (mheight/36)*14 , 'b',mwidth));
+                    donutList.add(new Donut(this, (mwidth/20)* 16, (mheight/36)* 3, 'c',mwidth));
+                    donutList.add(new Donut(this, (mwidth/20)* 16, (mheight/36)* 29, 'c',mwidth));
+                    donutList.add(new Donut(this, (mwidth/20)* 19, (mheight/36)* 15, 'b',mwidth));
+
+                    beetleList.add(new Beetle(this, (mwidth/20)* 7, (mheight/36)* 14, mwidth));
+                    beetleList.add(new Beetle(this, (mwidth/20)* 2, (mheight/36)* 26, mwidth));
+                    beetleList.add(new Beetle(this, (mwidth/20)* 10, (mheight/36)*27 , mwidth));
+                    beetleList.add(new Beetle(this, (mwidth/20)* 18, (mheight/36)* 6, mwidth));
+                    beetleList.add(new Beetle(this, (mwidth/20)* 19, (mheight/36)*18 , mwidth));
+                    beetleList.add(new Beetle(this, (mwidth/20)* 19, (mheight/36)* 29, mwidth));
                     break;
             }
         }
@@ -261,7 +282,7 @@ public class GameView extends View
 
                     if (gameFatman.getLives() > 0) {
                         gameFatman.FatmanDies();
-                        gameFatman.init();
+                        gameFatman.init((mwidth/20)*5, (mheight/36)*4,mwidth);
                         gameWarning = true;
                     } else {
                         gameEndTime = System.currentTimeMillis();
@@ -286,7 +307,7 @@ public class GameView extends View
                         (gameFatman.getY() + gameFatman.fatmanRadius > donutList.get(i).y + donutList.get(i).DonutRadius &&
                                 gameFatman.getY() - gameFatman.fatmanRadius < donutList.get(i).y + donutList.get(i).DonutRadius)) {
 
-                    gameFatman.fatmanRadius += 10;
+                    gameFatman.fatmanRadius += mwidth/80;
                     donutList.remove(i);
                     munch.start();
 
@@ -348,7 +369,13 @@ public class GameView extends View
 
         int newwidth = 2 * gameFatman.fatmanRadius;
         int newheight =  2 * gameFatman.fatmanRadius;
+
         Bitmap resizedfatman = Bitmap.createScaledBitmap(fatman, newwidth, newheight, false);
+        /*Bitmap resizedbdonut  = Bitmap.createScaledBitmap(bdonut, mwidth/20, mwidth/20, false);
+        Bitmap resizedpdonut  = Bitmap.createScaledBitmap(pdonut, mwidth/20, mwidth/20, false);
+        Bitmap resizedcdonut  = Bitmap.createScaledBitmap(chocdonut, mwidth/20, mwidth/20, false);*/
+
+
         gameCanvas = canvas;
         canvasPaint.setColor(Color.BLACK);
         gameCanvas.drawRect(0, 0, gameCanvasWidth, gameCanvasHeight, canvasPaint);
@@ -361,21 +388,22 @@ public class GameView extends View
                  canvas.drawBitmap(resizedfatman, gameFatman.getX()- resizedfatman.getWidth()/2 , gameFatman.getY()- resizedfatman.getHeight()/2, null);
 
                 for (int i = 0; i < beetleList.size();i++) {
-                    canvas.drawBitmap(beetle, beetleList.get(i).x - beetleList.get(i).beetleRadius, beetleList.get(i).y - beetleList.get(i).beetleRadius, null);
+                    canvas.drawBitmap(beetle, beetleList.get(i).x - beetle.getWidth()/2, beetleList.get(i).y - beetle.getWidth()/2, null);
                 }
                 for (int i = 0; i < donutList.size();i++) {
                     if (donutList.get(i).color_id == 'p')
-                        canvas.drawBitmap(pdonut, donutList.get(i).x - donutList.get(i).DonutRadius, donutList.get(i).y - donutList.get(i).DonutRadius, null);
+                        canvas.drawBitmap(pdonut, donutList.get(i).x - pdonut.getWidth()/2, donutList.get(i).y - pdonut.getHeight()/2, null);
                     if (donutList.get(i).color_id == 'c')
-                        canvas.drawBitmap(chocdonut, donutList.get(i).x - donutList.get(i).DonutRadius, donutList.get(i).y - donutList.get(i).DonutRadius, null);
+                        canvas.drawBitmap(chocdonut, donutList.get(i).x - chocdonut.getWidth()/2, donutList.get(i).y - chocdonut.getHeight()/2, null);
                     if (donutList.get(i).color_id == 'b')
-                        canvas.drawBitmap(bdonut, donutList.get(i).x - donutList.get(i).DonutRadius, donutList.get(i).y - donutList.get(i).DonutRadius, null);
+                        canvas.drawBitmap(bdonut, donutList.get(i).x - bdonut.getWidth()/2, donutList.get(i).y - bdonut.getHeight()/2, null);
                 }
                 drawMesseges();/**/
                 break;
 
             case GAME_OVER:
                 drawGameOver();
+                gameFatman.gameLives = 5;
                 break;
 
             case GAME_COMPLETE:

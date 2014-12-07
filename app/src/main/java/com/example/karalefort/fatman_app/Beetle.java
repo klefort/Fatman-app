@@ -11,10 +11,10 @@ public class Beetle {
     public int beetleRadius = 20;
     private View GameView;
 
-    public Beetle(View view, int x, int y) {
+    public Beetle(View view, int x, int y, int mwidth) {
         this.GameView = view;
-        this.x = x;
-        this.y = y;
+        this.x = x- mwidth/40;
+        this.y = y- mwidth/40;
 //        init();
     }
 
