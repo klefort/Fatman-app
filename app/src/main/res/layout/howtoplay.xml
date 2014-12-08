@@ -1,5 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
+
+    <Button
+        android:id = "@+id/back_id"
+        android:background="#ffe6f8ff"
+        android:layout_height="50dp"
+        android:layout_width="200dp"
+        android:textAllCaps="true"
+        android:textSize="20dp"
+        android:text = "Back"
+        android:layout_centerHorizontal = "true"
+        android:layout_marginTop="500dp"
+        />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/fatman"
+        android:id="@+id/imageview1"
+        android:layout_alignLeft="@+id/navigate_id"
+        android:layout_marginTop="120dp"
+         />
+
+    
+
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/pinkdonut"
+        android:id="@+id/imageview2"
+        android:layout_alignLeft="@+id/navigate_id"
+        android:layout_marginLeft="110dp"
+        android:layout_alignBottom="@+id/imageview1"
+         />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/navigate_id"
+        android:layout_alignBottom="@+id/imageview1"
+        android:id="@+id/imageview3"
+        android:layout_marginLeft="200dp"
+        android:layout_marginTop="80dp"
+        android:src="@drawable/beetlenew"
+         />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="How to Play"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        android:textAllCaps="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="45dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/navigate_id"
+        android:textSize="20dp"
+        android:layout_marginLeft="45dp"
+        android:layout_marginTop="250dp"
+        android:text="1. Navigate the office space"
+        />
+
+    <TextView
+    android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+    android:text="to eat all of the donuts before"
+    android:textSize="20dp"
+    android:layout_below="@+id/navigate_id"
+        android:layout_alignLeft="@+id/navigate_id"
+    />
+
+   <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="the timer runs out."
+    android:textSize="20dp"
+       android:layout_alignLeft="@+id/navigate_id"
+    android:layout_marginTop="300dp"
+       android:id="@+id/textView" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2. Avoid beetles and 'phantom' "
+        android:textSize="20dp"
+        android:layout_alignLeft="@+id/navigate_id"
+        android:layout_marginTop="340dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="donuts that may cause the "
+        android:textSize="20dp"
+        android:layout_alignLeft="@+id/navigate_id"
+        android:layout_marginTop="365dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Fatman to increase size like"
+        android:textSize="20dp"
+        android:layout_alignLeft="@+id/navigate_id"
+        android:layout_marginTop="390dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="crazy."
+        android:textSize="20dp"
+        android:layout_alignLeft="@+id/navigate_id"
+        android:layout_marginTop="415dp"/>
 </RelativeLayout>

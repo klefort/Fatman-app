@@ -5,4 +5,8 @@
     <item name="howtoplay_id" type="id" />
     <item name="fatmantext_id" type="id" />
     <item name="back_id" type="id" />
+    <item name="imageview1_id" type="id" />
+    <item name="imageview2_id" type="id" />
+    <item name="imageview3_id" type="id" />
+    <item name="beetle_id" type="id" />
 </resources>
