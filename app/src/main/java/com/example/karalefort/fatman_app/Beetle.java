@@ -8,13 +8,14 @@ public class Beetle {
 
     public int x;
     public int y;
-    public int beetleRadius = 20;
+    public int beetleRadius;
     private View GameView;
 
     public Beetle(View view, int x, int y, int mwidth) {
         this.GameView = view;
         this.x = x- mwidth/40;
         this.y = y- mwidth/40;
+        beetleRadius = mwidth/40;
 //        init();
     }
 

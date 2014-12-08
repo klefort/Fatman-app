@@ -25,7 +25,8 @@ import static android.view.View.MeasureSpec.UNSPECIFIED;
 import static android.view.View.SCALE_X;
 import static android.view.View.SCALE_Y;
 import android.text.*;
-
+import android.os.CountDownTimer;
+import android.widget.ProgressBar;
 
 
 /*class AndroidExternalFontsActivity extends Activity {
@@ -50,8 +51,32 @@ import android.text.*;
 
 public class MainActivity extends Activity {
 
-
     private GameView View;
+//    ProgressBar gameTimer;
+//    CountDownTimer gameCountDownTimer;
+//
+//    private void setTimer(int time) {
+//        int progress = 100;
+//        final int actualTime = time*1000;
+//        gameTimer.setProgress(progress);
+//        gameCountDownTimer = new CountDownTimer(actualTime, 1000) {
+//            int totalTime = actualTime;
+//            @Override
+//            public void onTick(long millisUntilFinished) {
+//                progress = (int)(( totalTime - millisUntilFinished ) /(double)totalTime * 100);
+//                gameTimer.setProgress(progress);
+//            }
+//
+//            @Override
+//            public void onFinish() {
+//                progress = 0;
+//                gameTimer.setProgress(progress);
+//                View.startLevel();
+//            }
+//        }.start();
+//    }
+
+
 
     //public TextView txtfatman = (TextView) findViewById(R.id.fatmantext_id);
     @Override
@@ -65,7 +90,8 @@ public class MainActivity extends Activity {
 //        final int height = View.getMeasuredHeight();
 //        final int width = ETC1.getWidth(IntBuffer);
 //        final int height = ETC1.getHeight(IntBuffer);
-
+//        gameTimer = (ProgressBar)findViewById(R.id.game_timer);
+//        setTimer(10);
 
         final Button exitButton = (Button) findViewById(R.id.exit_id);
         exitButton.setOnClickListener(new OnClickListener() {
@@ -93,8 +119,16 @@ public class MainActivity extends Activity {
         final Button howtoplayButton = (Button) findViewById(R.id.howtoplay_id);
         howtoplayButton.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                setContentView(new howtoplayView(getApplicationContext(), MainActivity.this));
-                View.setFocusable(true);
+//                setContentView(new howtoplayView(getApplicationContext(), MainActivity.this));
+                setContentView(R.layout.howtoplay);
+                final Button backButton = (Button) findViewById(R.id.back_id)
+                backButton.setOnClickListener((v) -> {
+                    setContentView(R.layout.howtoplay);
+
+                });
+            }
+
+//                View.setFocusable(true);
                 /*@Override
                 {
                     Canvas howtoplayCanvas;

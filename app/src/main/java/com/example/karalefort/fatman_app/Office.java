@@ -23,10 +23,10 @@ public class Office
     public final static int OFFICE_ROWS = 32;
     public final static int PATH_TILE = 0;
     public final static int VOID_TILE = 1;
-    public final static int EXIT_TILE = 2;
-    public final static int BEETLE_TILE = 3;
+//    public final static int EXIT_TILE = 2;
+//    public final static int BEETLE_TILE = 3;
     private final static int VOID_COLOR = Color.LTGRAY;
-    private final static int BEETLE_COLOR = Color.GREEN;
+//    private final static int BEETLE_COLOR = Color.GREEN;
     private Rect officeRectangle = new Rect();
     private static int[] OfficeArray;
     public final static int MAX_LEVELS = 10;
@@ -82,17 +82,17 @@ public class Office
             officeColumn = i % OFFICE_COLUMNS;
             officeScreenX = officeColumn * TILE_SIZEX;
             officeScreenY = officeRow * TILE_SIZEY;
-            paint.setColor(Color.CYAN);
+            paint.setColor(Color.WHITE);
             if (OfficeArray[i] == PATH_TILE)
             {
                 canvas.drawRect(officeScreenX, officeScreenY, officeScreenX + TILE_SIZEX, officeScreenY + TILE_SIZEY, paint);
             }
-            else if (OfficeArray[i] == EXIT_TILE)
-            {
-                paint.setColor(Color.RED);
-                canvas.drawRect(officeScreenX, officeScreenY, officeScreenX + TILE_SIZEX, officeScreenY + TILE_SIZEY, paint);
-                //paint.setColor(Color.GREEN);
-            }
+//            else if (OfficeArray[i] == EXIT_TILE)
+//            {
+//                paint.setColor(Color.RED);
+//                canvas.drawRect(officeScreenX, officeScreenY, officeScreenX + TILE_SIZEX, officeScreenY + TILE_SIZEY, paint);
+//                paint.setColor(Color.GREEN);
+//            }
             else if (OfficeArray[i] == VOID_TILE)
             {
                 officeRectangle.left = officeScreenX;
@@ -103,20 +103,20 @@ public class Office
                 paint.setColor(VOID_COLOR);
                 canvas.drawRect(officeRectangle, paint);
             }
-            else if (OfficeArray[i] == BEETLE_TILE)
-            {
+//            else if (OfficeArray[i] == BEETLE_TILE)
+//            {
 //                beetlex[i] = officeScreenX;
 //                beetley[i] = officeScreenY;
-                officeRectangle.left = officeScreenX;
-                officeRectangle.top = officeScreenY;
-                officeRectangle.right = officeScreenX + TILE_SIZEX;
-                officeRectangle.bottom = officeScreenY + TILE_SIZEY;
-
-                paint.setColor(BEETLE_COLOR);
-                canvas.drawRect(officeRectangle, paint);
+//                officeRectangle.left = officeScreenX;
+//                officeRectangle.top = officeScreenY;
+//                officeRectangle.right = officeScreenX + TILE_SIZEX;
+//                officeRectangle.bottom = officeScreenY + TILE_SIZEY;
+//
+//                paint.setColor(BEETLE_COLOR);
+//                canvas.drawRect(officeRectangle, paint);
             }
         }
-    }
+
 
     public int getCellType(int x, int y)
     {
@@ -143,6 +143,6 @@ public class Office
             }
         }
     }
-    public static int x = 50;
-    public static int y = 100;
+//    public static int x = 50;
+//    public static int y = 100;
 }

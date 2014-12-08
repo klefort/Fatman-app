@@ -61,11 +61,11 @@ public class GameView extends View
     private final static int Game_GAME_OVER_MSG_A = 7;
     private final static int Game_GAME_OVER_MSG_B = 8;
     private final static int Game_RESTART = 9;
-//    private final static int Game_LANDSCAPE_MODE = 10;
+    //    private final static int Game_LANDSCAPE_MODE = 10;
     public int mheight = 0;
     public int mwidth = 0;
     private int fontTextPadding = 10;
-    private int gameHudTextY = 440;
+    //private int gameHudTextY = 440;
 
     private static String gameStrings[];
     private boolean gameWarning = false;
@@ -75,10 +75,14 @@ public class GameView extends View
     private int gameCanvasHalfHeight = 0;
     //    private boolean orientationPortrait = true;
     private int gamelevel = 1;
-    private long gameTotalTime = 60;
-    private long levelStartTime = 0;
-    private long gameEndTime = 0;
 
+//    private long gameTotalTime = 30000;
+    private long levelStartTime;
+    private long levelEndTime;
+    private long levelCurrentTime;
+    private long levelRemainTime = 30000;
+    private boolean touched = false;
+//    private boolean dead = false;
 
     private SensorManager gameSensorManager;
     private float gameAccelX = 0;
@@ -164,8 +168,11 @@ public class GameView extends View
                 changeState(GAME_RUNNING);
 
             case GAME_RUNNING:
-                if (!gameWarning)
+                if (!gameWarning) {
+//                    levelRemainTime = 30000 - (System.currentTimeMillis() - levelStartTime);
                     updateFatmanPosition();
+                    levelRemainTime = 31000 - (System.currentTimeMillis() - levelStartTime);
+                }
                 break;
         }
         invalidate();
@@ -174,29 +181,227 @@ public class GameView extends View
 
     public void startNewGame()
     {
-        gameTotalTime = 0;
+//        gameTotalTime = 30000;
         gamelevel = 0;
-        startLevel();
+        nextLevel();
     }
 
     public void startLevel()
     {
+        touched = false;
+//        dead = false;
+        levelRemainTime = 30000;
+        gameFatman.fatmanRadius = mwidth/(40);
+        beetleList.clear();
+        donutList.clear();
+
+        switch (gamelevel) {
+            case 1:
+                gameFatman.init((mwidth/20)*5, (mheight/36)*4,mwidth);
+                donutList.add(new Donut(this, (mwidth/20)*12, (mheight/36)*4, 'p', mwidth));
+                donutList.add(new Donut(this, (mwidth/20)*16, (mheight/36)*4,'p', mwidth));
+                donutList.add(new Donut(this, (mwidth/20)*3, (mheight/36)*15, 'p',mwidth));
+                donutList.add(new Donut(this, (mwidth/20)*3, (mheight/36)*16, 'p',mwidth));
+                donutList.add(new Donut(this, (mwidth/20)*7, (mheight/36)*15, 'p',mwidth));
+                donutList.add(new Donut(this, (mwidth/20)*13, (mheight/36)*23,'p', mwidth));
+                donutList.add(new Donut(this, (mwidth/20)*18, (mheight/36)*23,'p', mwidth));
+                donutList.add(new Donut(this, (mwidth/20)*18, (mheight/36)*30,'p', mwidth));
+
+                beetleList.add(new Beetle(this, (mwidth/20)*2, (mheight/36)*2, mwidth));
+                beetleList.add(new Beetle(this, (mwidth/20)*8, (mheight/36)*2, mwidth));
+                beetleList.add(new Beetle(this, (mwidth/20)*19, (mheight/36)*4, mwidth));
+                beetleList.add(new Beetle(this, (mwidth/20)*19, (mheight/36)*22, mwidth));
+                beetleList.add(new Beetle(this, (mwidth/20)*2, (mheight/36)*31, mwidth));
+                beetleList.add(new Beetle(this, (mwidth/20)*16, (mheight/36)*22, mwidth));
+                break;
+
+            case 2:
+                gameFatman.init((mwidth / 20) * 5, (mheight / 36) * 18, mwidth);
+
+                donutList.add(new Donut(this,(mwidth/20)*2,(mheight/36)*3,'b',mwidth));
+                donutList.add(new Donut(this,(mwidth/20)*2,(mheight/36)*7,'p',mwidth));
+                donutList.add(new Donut(this,(mwidth/20)*2,(mheight/36)*12,'b',mwidth));
+                donutList.add(new Donut(this,(mwidth/20)*11,(mheight/36)*12,'c',mwidth));
+                donutList.add(new Donut(this,(mwidth/20)*16,(mheight/36)*5,'b',mwidth));
+                donutList.add(new Donut(this,(mwidth/20)*17,(mheight/36)*4,'b',mwidth));
+                donutList.add(new Donut(this,(mwidth/20)*5,(mheight/36)*27,'b',mwidth));
+                donutList.add(new Donut(this,(mwidth/20)*3,(mheight/36)*30,'b',mwidth));
+
+                beetleList.add(new Beetle(this,(mwidth/20)*3,(mheight/36)*16,mwidth));
+                beetleList.add(new Beetle(this,(mwidth/20)*3,(mheight/36)*20,mwidth));
+                beetleList.add(new Beetle(this,(mwidth/20)*7,(mheight/36)*16,mwidth));
+                beetleList.add(new Beetle(this,(mwidth/20)*7,(mheight/36)*20,mwidth));
+                beetleList.add(new Beetle(this,(mwidth/20)*14,(mheight/36)*8,mwidth));
+                beetleList.add(new Beetle(this,(mwidth/20)*15,(mheight/36)*8,mwidth));
+                beetleList.add(new Beetle(this,(mwidth/20)*19,(mheight/36)*2,mwidth));
+                beetleList.add(new Beetle(this,(mwidth/20)*8,(mheight/36)*26,mwidth));
+                beetleList.add(new Beetle(this,(mwidth/20)*15,(mheight/36)*31,mwidth));
+                beetleList.add(new Beetle(this,(mwidth/20)*18,(mheight/36)*26,mwidth));
+                break;
+
+
+            case 3:
+                gameFatman.init((mwidth/20)*3, (mheight/36)*3,mwidth);
+
+                donutList.add(new Donut(this, (mwidth/20)*4, (mheight/36)*27,'p', mwidth));
+                donutList.add(new Donut(this, (mwidth/20)*5, (mheight/36)*13,'c', mwidth));
+                donutList.add(new Donut(this, (mwidth/20)*8, (mheight/36)*30,'c', mwidth));
+                donutList.add(new Donut(this, (mwidth/20)*10, (mheight/36)*6,'p', mwidth));
+                donutList.add(new Donut(this, (mwidth/20)*11, (mheight/36)*21,'b', mwidth));
+                donutList.add(new Donut(this, (mwidth/20)*15, (mheight/36)*3,'c', mwidth));
+                donutList.add(new Donut(this, (mwidth/20)*16, (mheight/36)*15,'b', mwidth));
+                donutList.add(new Donut(this, (mwidth/20)*17, (mheight/36)*24,'p', mwidth));
+
+                beetleList.add(new Beetle(this,(mwidth/20)*3, (mheight/36)*30, mwidth));
+                beetleList.add(new Beetle(this,(mwidth/20)*4, (mheight/36)*9, mwidth));
+                beetleList.add(new Beetle(this,(mwidth/20)*11, (mheight/36)*27, mwidth));
+                beetleList.add(new Beetle(this,(mwidth/20)*11, (mheight/36)*27, mwidth));
+                beetleList.add(new Beetle(this,(mwidth/20)*18, (mheight/36)*3, mwidth));
+                beetleList.add(new Beetle(this,(mwidth/20)*18, (mheight/36)*30, mwidth));
+                break;
+
+            case 4:
+                gameFatman.init((mwidth/20)*3,(mheight/36)*29, mwidth);
+
+                donutList.add(new Donut(this,(mwidth/20)*18,(mheight/36)*3,'p',mwidth));
+//                donutList.add(new Donut(this,(mwidth/20)*19,(mheight/36)*11,'p',mwidth));
+//                donutList.add(new Donut(this,(mwidth/20)*5,(mheight/36)*25,'p',mwidth));
+//                donutList.add(new Donut(this,(mwidth/20)*14,(mheight/36)*26,'p',mwidth));
+//                donutList.add(new Donut(this,(mwidth/20)*10,(mheight/36)*29,'p',mwidth));
+
+                beetleList.add(new Beetle(this,(mwidth/20)*11,(mheight/36)*4,mwidth));
+                beetleList.add(new Beetle(this,(mwidth/20)*6,(mheight/36)*8,mwidth));
+                beetleList.add(new Beetle(this,(mwidth/20)*15,(mheight/36)*8,mwidth));
+                beetleList.add(new Beetle(this,(mwidth/20)*9,(mheight/36)*9,mwidth));
+                beetleList.add(new Beetle(this,(mwidth/20)*12,(mheight/36)*11,mwidth));
+                beetleList.add(new Beetle(this,(mwidth/20)*7,(mheight/36)*12,mwidth));
+                beetleList.add(new Beetle(this,(mwidth/20)*9,(mheight/36)*14,mwidth));
+                beetleList.add(new Beetle(this,(mwidth/20)*12,(mheight/36)*15,mwidth));
+                beetleList.add(new Beetle(this,(mwidth/20)*15,(mheight/36)*16,mwidth));
+                beetleList.add(new Beetle(this,(mwidth/20)*11,(mheight/36)*19,mwidth));
+                beetleList.add(new Beetle(this,(mwidth/20)*16,(mheight/29)*5,mwidth));
+                beetleList.add(new Beetle(this,(mwidth/20)*18,(mheight/36)*19,mwidth));
+                beetleList.add(new Beetle(this,(mwidth/20)*17,(mheight/36)*12,mwidth));
+                beetleList.add(new Beetle(this,(mwidth/20)*5,(mheight/36)*16,mwidth));
+                break;
+
+            case 5:
+
+                gameFatman.init((mwidth/20)*10, (mheight/36)*22,mwidth);
+
+                donutList.add(new Donut(this, (mwidth/20)*5, (mheight/36)*7,'p', mwidth));
+                donutList.add(new Donut(this, (mwidth/20)*5, (mheight/36)*25,'c', mwidth));
+                donutList.add(new Donut(this, (mwidth/20)*5, (mheight/36)*29,'c', mwidth));
+                donutList.add(new Donut(this, (mwidth/20)*10, (mheight/36)*17,'p', mwidth));
+                donutList.add(new Donut(this, (mwidth/20)*10, (mheight/36)*18,'b', mwidth));
+                donutList.add(new Donut(this, (mwidth/20)*11, (mheight/36)*17,'c', mwidth));
+                donutList.add(new Donut(this, (mwidth/20)*11, (mheight/36)*18,'b', mwidth));
+                donutList.add(new Donut(this, (mwidth/20)*14, (mheight/36)*24,'p', mwidth));
+                donutList.add(new Donut(this, (mwidth/20)*16, (mheight/36)*24,'p', mwidth));
+
+                beetleList.add(new Beetle(this,(mwidth/20)*7, (mheight/36)*15, mwidth));
+                beetleList.add(new Beetle(this,(mwidth/20)*7, (mheight/36)*16, mwidth));
+                beetleList.add(new Beetle(this,(mwidth/20)*7, (mheight/36)*17, mwidth));
+                beetleList.add(new Beetle(this,(mwidth/20)*7, (mheight/36)*18, mwidth));
+                beetleList.add(new Beetle(this,(mwidth/20)*7, (mheight/36)*19, mwidth));
+                beetleList.add(new Beetle(this,(mwidth/20)*14, (mheight/36)*15, mwidth));
+                beetleList.add(new Beetle(this,(mwidth/20)*14, (mheight/36)*16, mwidth));
+                beetleList.add(new Beetle(this,(mwidth/20)*14, (mheight/36)*17, mwidth));
+                beetleList.add(new Beetle(this,(mwidth/20)*14, (mheight/36)*18, mwidth));
+                beetleList.add(new Beetle(this,(mwidth/20)*14, (mheight/36)*19, mwidth));
+                beetleList.add(new Beetle(this,(mwidth/20)*8, (mheight/36)*14, mwidth));
+                beetleList.add(new Beetle(this,(mwidth/20)*9, (mheight/36)*13, mwidth));
+                beetleList.add(new Beetle(this,(mwidth/20)*10, (mheight/36)*12, mwidth));
+                beetleList.add(new Beetle(this,(mwidth/20)*11, (mheight/36)*12, mwidth));
+                beetleList.add(new Beetle(this,(mwidth/20)*12, (mheight/36)*13, mwidth));
+                beetleList.add(new Beetle(this,(mwidth/20)*13, (mheight/36)*14, mwidth));
+                break;
+
+            case 6:
+                gameFatman.init((mwidth/20)*5, (mheight/36)*4,mwidth);
+                donutList.add(new Donut(this, (mwidth/20)* 13, (mheight/36)* 19,'p', mwidth));
+                donutList.add(new Donut(this, (mwidth/20)* 14, (mheight/36)* 30,'p', mwidth));
+                donutList.add(new Donut(this, (mwidth/20)* 2, (mheight/36)* 13,'p', mwidth));
+                donutList.add(new Donut(this, (mwidth/20)* 2, (mheight/36)* 27,'p', mwidth));
+
+                beetleList.add(new Beetle(this, (mwidth/20)* 6, (mheight/36)* 2, mwidth));
+                beetleList.add(new Beetle(this, (mwidth/20)* 9, (mheight/36)* 2, mwidth));
+                beetleList.add(new Beetle(this, (mwidth/20)* 14, (mheight/36)* 2, mwidth));
+                beetleList.add(new Beetle(this, (mwidth/20)* 14, (mheight/36)* 7, mwidth));
+                beetleList.add(new Beetle(this, (mwidth/20)* 5, (mheight/36)* 13, mwidth));
+                beetleList.add(new Beetle(this, (mwidth/20)* 2, (mheight/36)* 19, mwidth));
+                beetleList.add(new Beetle(this, (mwidth/20)* 7, (mheight/36)* 22, mwidth));
+                beetleList.add(new Beetle(this, (mwidth/20)* 4, (mheight/36)* 29, mwidth));
+                break;
+            case 7:
+                gameFatman.init((mwidth/20*10), (mheight/36)*14,mwidth);
+
+                donutList.add(new Donut(this, (mwidth/20)* 16, (mheight/36)* 5,'b', mwidth));
+                donutList.add(new Donut(this, (mwidth/20)* 4, (mheight/36)* 27,'p', mwidth));
+                donutList.add(new Donut(this, (mwidth/20)* 4, (mheight/36)* 27,'p', mwidth));
+                donutList.add(new Donut(this, (mwidth/20)* 4, (mheight/36)* 27,'p', mwidth));
+                donutList.add(new Donut(this, (mwidth/20)* 4, (mheight/36)* 27,'p', mwidth));
+                donutList.add(new Donut(this, (mwidth/20)* 4, (mheight/36)* 27,'p', mwidth));
+                donutList.add(new Donut(this, (mwidth/20)* 4, (mheight/36)* 27,'p', mwidth));
+                donutList.add(new Donut(this, (mwidth/20)* 4, (mheight/36)* 27,'p', mwidth));
+                donutList.add(new Donut(this, (mwidth/20)* 4, (mheight/36)* 27,'p', mwidth));
+                donutList.add(new Donut(this, (mwidth/20)* 4, (mheight/36)* 27,'p', mwidth));
+                donutList.add(new Donut(this, (mwidth/20)* 4, (mheight/36)* 27,'p', mwidth));
+                donutList.add(new Donut(this, (mwidth/20)* 4, (mheight/36)* 27,'p', mwidth));
+                break;
+            case 8:
+                gameFatman.init((mwidth/20)*5, (mheight/36)*4,mwidth);
+                donutList.add(new Donut(this, (mwidth/20)* 3, (mheight/36)* 27,'b', mwidth));
+                donutList.add(new Donut(this, (mwidth/20)* 6, (mheight/36)* 23,'p', mwidth));
+                donutList.add(new Donut(this, (mwidth/20)* 7, (mheight/36)* 10,'b', mwidth));
+                donutList.add(new Donut(this, (mwidth/20)* 10, (mheight/36)* 2,'p', mwidth));
+                donutList.add(new Donut(this, (mwidth/20)* 14, (mheight/36)* 8, 'b',mwidth));
+                donutList.add(new Donut(this, (mwidth/20)* 14, (mheight/36)* 12,'p', mwidth));
+                donutList.add(new Donut(this, (mwidth/20)* 17, (mheight/36)* 18,'b', mwidth));
+
+                beetleList.add(new Beetle(this, (mwidth/20)* 2, (mheight/36)* 5, mwidth));
+                beetleList.add(new Beetle(this, (mwidth/20)* 2, (mheight/36)* 13, mwidth));
+                beetleList.add(new Beetle(this, (mwidth/20)* 3, (mheight/36)* 29, mwidth));
+                beetleList.add(new Beetle(this, (mwidth/20)* 5, (mheight/36)* 20, mwidth));
+                beetleList.add(new Beetle(this, (mwidth/20)* 7, (mheight/36)* 27, mwidth));
+                beetleList.add(new Beetle(this, (mwidth/20)* 8, (mheight/36)* 14, mwidth));
+                beetleList.add(new Beetle(this, (mwidth/20)* 10, (mheight/36)* 7, mwidth));
+                beetleList.add(new Beetle(this, (mwidth/20)* 12, (mheight/36)* 6, mwidth));
+                beetleList.add(new Beetle(this, (mwidth/20)* 15, (mheight/36)* 30, mwidth));
+                beetleList.add(new Beetle(this, (mwidth/20)* 16, (mheight/36)* 6, mwidth));
+                beetleList.add(new Beetle(this, (mwidth/20)* 17, (mheight/36)* 7, mwidth));
+                beetleList.add(new Beetle(this, (mwidth/20)* 12, (mheight/36)* 17, mwidth));
+                beetleList.add(new Beetle(this, (mwidth/20)* 12, (mheight/36)* 18, mwidth));
+                beetleList.add(new Beetle(this, (mwidth/20)* 12, (mheight/36)* 19, mwidth));
+                beetleList.add(new Beetle(this, (mwidth/20)* 12, (mheight/36)* 20, mwidth));
+                beetleList.add(new Beetle(this, (mwidth/20)* 13, (mheight/36)* 17, mwidth));
+                beetleList.add(new Beetle(this, (mwidth/20)* 13, (mheight/36)* 18, mwidth));
+                beetleList.add(new Beetle(this, (mwidth/20)* 13, (mheight/36)* 19, mwidth));
+                beetleList.add(new Beetle(this, (mwidth/20)* 13, (mheight/36)* 20, mwidth));
+                break;
+        }
+    }
+    public void nextLevel()
+    {
         if (gamelevel < gameOffice.MAX_LEVELS)
         {
+            touched = false;
+//            dead = false;
+            levelRemainTime = 30000;
             gameFatman.fatmanRadius = mwidth/(40);
             gameWarning = true;
             gamelevel++;
             gameOffice.load(gameActivity, gamelevel);
             beetleList.clear();
             donutList.clear();
-            gameFatman.init((mwidth/20)*5, (mheight/36)*4,mwidth);
+
             switch (gamelevel) {
                 case 1:
-
+                    gameFatman.init((mwidth/20)*5, (mheight/36)*4,mwidth);
                     donutList.add(new Donut(this, (mwidth/20)*12, (mheight/36)*4, 'p', mwidth));
                     donutList.add(new Donut(this, (mwidth/20)*16, (mheight/36)*4,'p', mwidth));
-                    donutList.add(new Donut(this, (mwidth/20)*2, (mheight/36)*16, 'p',mwidth));
-                    donutList.add(new Donut(this, (mwidth/20)*4, (mheight/36)*16, 'p',mwidth));
+                    donutList.add(new Donut(this, (mwidth/20)*3, (mheight/36)*15, 'p',mwidth));
+                    donutList.add(new Donut(this, (mwidth/20)*3, (mheight/36)*16, 'p',mwidth));
                     donutList.add(new Donut(this, (mwidth/20)*7, (mheight/36)*15, 'p',mwidth));
                     donutList.add(new Donut(this, (mwidth/20)*13, (mheight/36)*23,'p', mwidth));
                     donutList.add(new Donut(this, (mwidth/20)*18, (mheight/36)*23,'p', mwidth));
@@ -211,22 +416,168 @@ public class GameView extends View
                     break;
 
                 case 2:
-                    donutList.add(new Donut(this, (mwidth/20)* 3, (mheight/36)* 14, 'p',mwidth));
-                    donutList.add(new Donut(this, (mwidth/20)* 8, (mheight/36)*5 , 'b',mwidth));
-                    donutList.add(new Donut(this, (mwidth/20)* 6, (mheight/36)* 29, 'c',mwidth));
-                    donutList.add(new Donut(this, (mwidth/20)* 12, (mheight/36)* 27, 'p',mwidth));
-                    donutList.add(new Donut(this, (mwidth/20)* 13, (mheight/36)*14 , 'b',mwidth));
-                    donutList.add(new Donut(this, (mwidth/20)* 16, (mheight/36)* 3, 'c',mwidth));
-                    donutList.add(new Donut(this, (mwidth/20)* 16, (mheight/36)* 29, 'c',mwidth));
-                    donutList.add(new Donut(this, (mwidth/20)* 19, (mheight/36)* 15, 'b',mwidth));
+                    gameFatman.init((mwidth / 20) * 5, (mheight / 36) * 18, mwidth);
 
-                    beetleList.add(new Beetle(this, (mwidth/20)* 7, (mheight/36)* 14, mwidth));
-                    beetleList.add(new Beetle(this, (mwidth/20)* 2, (mheight/36)* 26, mwidth));
-                    beetleList.add(new Beetle(this, (mwidth/20)* 10, (mheight/36)*27 , mwidth));
-                    beetleList.add(new Beetle(this, (mwidth/20)* 18, (mheight/36)* 6, mwidth));
-                    beetleList.add(new Beetle(this, (mwidth/20)* 19, (mheight/36)*18 , mwidth));
-                    beetleList.add(new Beetle(this, (mwidth/20)* 19, (mheight/36)* 29, mwidth));
+                    donutList.add(new Donut(this,(mwidth/20)*2,(mheight/36)*3,'b',mwidth));
+                    donutList.add(new Donut(this,(mwidth/20)*2,(mheight/36)*7,'p',mwidth));
+                    donutList.add(new Donut(this,(mwidth/20)*2,(mheight/36)*12,'b',mwidth));
+                    donutList.add(new Donut(this,(mwidth/20)*11,(mheight/36)*12,'c',mwidth));
+                    donutList.add(new Donut(this,(mwidth/20)*16,(mheight/36)*5,'b',mwidth));
+                    donutList.add(new Donut(this,(mwidth/20)*17,(mheight/36)*4,'b',mwidth));
+                    donutList.add(new Donut(this,(mwidth/20)*5,(mheight/36)*27,'b',mwidth));
+                    donutList.add(new Donut(this,(mwidth/20)*3,(mheight/36)*30,'b',mwidth));
+
+                    beetleList.add(new Beetle(this,(mwidth/20)*3,(mheight/36)*16,mwidth));
+                    beetleList.add(new Beetle(this,(mwidth/20)*3,(mheight/36)*20,mwidth));
+                    beetleList.add(new Beetle(this,(mwidth/20)*7,(mheight/36)*16,mwidth));
+                    beetleList.add(new Beetle(this,(mwidth/20)*7,(mheight/36)*20,mwidth));
+                    beetleList.add(new Beetle(this,(mwidth/20)*14,(mheight/36)*8,mwidth));
+                    beetleList.add(new Beetle(this,(mwidth/20)*15,(mheight/36)*8,mwidth));
+                    beetleList.add(new Beetle(this,(mwidth/20)*19,(mheight/36)*2,mwidth));
+                    beetleList.add(new Beetle(this,(mwidth/20)*8,(mheight/36)*26,mwidth));
+                    beetleList.add(new Beetle(this,(mwidth/20)*15,(mheight/36)*31,mwidth));
+                    beetleList.add(new Beetle(this,(mwidth/20)*18,(mheight/36)*26,mwidth));
                     break;
+
+
+                case 3:
+                    gameFatman.init((mwidth/20)*3, (mheight/36)*3,mwidth);
+                    donutList.add(new Donut(this, (mwidth/20)*4, (mheight/36)*27,'p', mwidth));
+                    donutList.add(new Donut(this, (mwidth/20)*5, (mheight/36)*13,'c', mwidth));
+                    donutList.add(new Donut(this, (mwidth/20)*8, (mheight/36)*30,'c', mwidth));
+                    donutList.add(new Donut(this, (mwidth/20)*10, (mheight/36)*6,'p', mwidth));
+                    donutList.add(new Donut(this, (mwidth/20)*11, (mheight/36)*21,'b', mwidth));
+                    donutList.add(new Donut(this, (mwidth/20)*15, (mheight/36)*3,'c', mwidth));
+                    donutList.add(new Donut(this, (mwidth/20)*16, (mheight/36)*15,'b', mwidth));
+                    donutList.add(new Donut(this, (mwidth/20)*17, (mheight/36)*24,'p', mwidth));
+
+                    beetleList.add(new Beetle(this,(mwidth/20)*3, (mheight/36)*30, mwidth));
+                    beetleList.add(new Beetle(this,(mwidth/20)*4, (mheight/36)*9, mwidth));
+                    beetleList.add(new Beetle(this,(mwidth/20)*11, (mheight/36)*27, mwidth));
+                    beetleList.add(new Beetle(this,(mwidth/20)*11, (mheight/36)*27, mwidth));
+                    beetleList.add(new Beetle(this,(mwidth/20)*18, (mheight/36)*3, mwidth));
+                    beetleList.add(new Beetle(this,(mwidth/20)*18, (mheight/36)*30, mwidth));
+                    break;
+
+                case 4:
+                    gameFatman.init((mwidth/20)*3,(mheight/36)*29, mwidth);
+
+                    donutList.add(new Donut(this,(mwidth/20)*18,(mheight/36)*3,'p',mwidth));
+//                    donutList.add(new Donut(this,(mwidth/20)*19,(mheight/36)*11,'p',mwidth));
+//                    donutList.add(new Donut(this,(mwidth/20)*5,(mheight/36)*25,'p',mwidth));
+//                    donutList.add(new Donut(this,(mwidth/20)*14,(mheight/36)*26,'p',mwidth));
+//                    donutList.add(new Donut(this,(mwidth/20)*10,(mheight/36)*29,'p',mwidth));
+
+                    beetleList.add(new Beetle(this,(mwidth/20)*11,(mheight/36)*4,mwidth));
+                    beetleList.add(new Beetle(this,(mwidth/20)*6,(mheight/36)*8,mwidth));
+                    beetleList.add(new Beetle(this,(mwidth/20)*15,(mheight/36)*8,mwidth));
+                    beetleList.add(new Beetle(this,(mwidth/20)*9,(mheight/36)*9,mwidth));
+                    beetleList.add(new Beetle(this,(mwidth/20)*12,(mheight/36)*11,mwidth));
+                    beetleList.add(new Beetle(this,(mwidth/20)*7,(mheight/36)*12,mwidth));
+                    beetleList.add(new Beetle(this,(mwidth/20)*9,(mheight/36)*14,mwidth));
+                    beetleList.add(new Beetle(this,(mwidth/20)*12,(mheight/36)*15,mwidth));
+                    beetleList.add(new Beetle(this,(mwidth/20)*15,(mheight/36)*16,mwidth));
+                    beetleList.add(new Beetle(this,(mwidth/20)*11,(mheight/36)*19,mwidth));
+                    beetleList.add(new Beetle(this,(mwidth/20)*16,(mheight/29)*5,mwidth));
+                    beetleList.add(new Beetle(this,(mwidth/20)*18,(mheight/36)*19,mwidth));
+                    beetleList.add(new Beetle(this,(mwidth/20)*17,(mheight/36)*12,mwidth));
+                    beetleList.add(new Beetle(this,(mwidth/20)*5,(mheight/36)*16,mwidth));
+                    break;
+
+                case 5:
+
+                    gameFatman.init((mwidth/20)*10, (mheight/36)*22,mwidth);
+
+                    donutList.add(new Donut(this, (mwidth/20)*5, (mheight/36)*7,'p', mwidth));
+                    donutList.add(new Donut(this, (mwidth/20)*5, (mheight/36)*25,'c', mwidth));
+                    donutList.add(new Donut(this, (mwidth/20)*5, (mheight/36)*29,'c', mwidth));
+                    donutList.add(new Donut(this, (mwidth/20)*10, (mheight/36)*17,'p', mwidth));
+                    donutList.add(new Donut(this, (mwidth/20)*10, (mheight/36)*18,'b', mwidth));
+                    donutList.add(new Donut(this, (mwidth/20)*11, (mheight/36)*17,'c', mwidth));
+                    donutList.add(new Donut(this, (mwidth/20)*11, (mheight/36)*18,'b', mwidth));
+                    donutList.add(new Donut(this, (mwidth/20)*14, (mheight/36)*24,'p', mwidth));
+                    donutList.add(new Donut(this, (mwidth/20)*16, (mheight/36)*24,'p', mwidth));
+
+                    beetleList.add(new Beetle(this,(mwidth/20)*7, (mheight/36)*15, mwidth));
+                    beetleList.add(new Beetle(this,(mwidth/20)*7, (mheight/36)*16, mwidth));
+                    beetleList.add(new Beetle(this,(mwidth/20)*7, (mheight/36)*17, mwidth));
+                    beetleList.add(new Beetle(this,(mwidth/20)*7, (mheight/36)*18, mwidth));
+                    beetleList.add(new Beetle(this,(mwidth/20)*7, (mheight/36)*19, mwidth));
+                    beetleList.add(new Beetle(this,(mwidth/20)*14, (mheight/36)*15, mwidth));
+                    beetleList.add(new Beetle(this,(mwidth/20)*14, (mheight/36)*16, mwidth));
+                    beetleList.add(new Beetle(this,(mwidth/20)*14, (mheight/36)*17, mwidth));
+                    beetleList.add(new Beetle(this,(mwidth/20)*14, (mheight/36)*18, mwidth));
+                    beetleList.add(new Beetle(this,(mwidth/20)*14, (mheight/36)*19, mwidth));
+                    beetleList.add(new Beetle(this,(mwidth/20)*8, (mheight/36)*14, mwidth));
+                    beetleList.add(new Beetle(this,(mwidth/20)*9, (mheight/36)*13, mwidth));
+                    beetleList.add(new Beetle(this,(mwidth/20)*10, (mheight/36)*12, mwidth));
+                    beetleList.add(new Beetle(this,(mwidth/20)*11, (mheight/36)*12, mwidth));
+                    beetleList.add(new Beetle(this,(mwidth/20)*12, (mheight/36)*13, mwidth));
+                    beetleList.add(new Beetle(this,(mwidth/20)*13, (mheight/36)*14, mwidth));
+                    break;
+
+                case 6:
+                    gameFatman.init((mwidth/20)*5, (mheight/36)*4,mwidth);
+                    donutList.add(new Donut(this, (mwidth/20)* 13, (mheight/36)* 19,'p', mwidth));
+                    donutList.add(new Donut(this, (mwidth/20)* 14, (mheight/36)* 30,'p', mwidth));
+                    donutList.add(new Donut(this, (mwidth/20)* 2, (mheight/36)* 13,'p', mwidth));
+                    donutList.add(new Donut(this, (mwidth/20)* 2, (mheight/36)* 27,'p', mwidth));
+
+                    beetleList.add(new Beetle(this, (mwidth/20)* 6, (mheight/36)* 2, mwidth));
+                    beetleList.add(new Beetle(this, (mwidth/20)* 9, (mheight/36)* 2, mwidth));
+                    beetleList.add(new Beetle(this, (mwidth/20)* 14, (mheight/36)* 2, mwidth));
+                    beetleList.add(new Beetle(this, (mwidth/20)* 14, (mheight/36)* 7, mwidth));
+                    beetleList.add(new Beetle(this, (mwidth/20)* 5, (mheight/36)* 13, mwidth));
+                    beetleList.add(new Beetle(this, (mwidth/20)* 2, (mheight/36)* 19, mwidth));
+                    beetleList.add(new Beetle(this, (mwidth/20)* 7, (mheight/36)* 22, mwidth));
+                    beetleList.add(new Beetle(this, (mwidth/20)* 4, (mheight/36)* 29, mwidth));
+                    break;
+                case 7:
+                    gameFatman.init((mwidth/20*10), (mheight/36)*14,mwidth);
+
+                    donutList.add(new Donut(this, (mwidth/20)* 16, (mheight/36)* 5,'b', mwidth));
+                    donutList.add(new Donut(this, (mwidth/20)* 4, (mheight/36)* 27,'p', mwidth));
+                    donutList.add(new Donut(this, (mwidth/20)* 4, (mheight/36)* 27,'p', mwidth));
+                    donutList.add(new Donut(this, (mwidth/20)* 4, (mheight/36)* 27,'p', mwidth));
+                    donutList.add(new Donut(this, (mwidth/20)* 4, (mheight/36)* 27,'p', mwidth));
+                    donutList.add(new Donut(this, (mwidth/20)* 4, (mheight/36)* 27,'p', mwidth));
+                    donutList.add(new Donut(this, (mwidth/20)* 4, (mheight/36)* 27,'p', mwidth));
+                    donutList.add(new Donut(this, (mwidth/20)* 4, (mheight/36)* 27,'p', mwidth));
+                    donutList.add(new Donut(this, (mwidth/20)* 4, (mheight/36)* 27,'p', mwidth));
+                    donutList.add(new Donut(this, (mwidth/20)* 4, (mheight/36)* 27,'p', mwidth));
+                    donutList.add(new Donut(this, (mwidth/20)* 4, (mheight/36)* 27,'p', mwidth));
+                    donutList.add(new Donut(this, (mwidth/20)* 4, (mheight/36)* 27,'p', mwidth));
+                    break;
+                case 8:
+                    gameFatman.init((mwidth/20)*5, (mheight/36)*4,mwidth);
+
+                    donutList.add(new Donut(this, (mwidth/20)* 3, (mheight/36)* 27,'b', mwidth));
+                    donutList.add(new Donut(this, (mwidth/20)* 6, (mheight/36)* 23,'p', mwidth));
+                    donutList.add(new Donut(this, (mwidth/20)* 7, (mheight/36)* 10,'b', mwidth));
+                    donutList.add(new Donut(this, (mwidth/20)* 10, (mheight/36)* 2,'p', mwidth));
+                    donutList.add(new Donut(this, (mwidth/20)* 14, (mheight/36)* 8, 'b',mwidth));
+                    donutList.add(new Donut(this, (mwidth/20)* 14, (mheight/36)* 12,'p', mwidth));
+                    donutList.add(new Donut(this, (mwidth/20)* 17, (mheight/36)* 18,'b', mwidth));
+
+                    beetleList.add(new Beetle(this, (mwidth/20)* 2, (mheight/36)* 5, mwidth));
+                    beetleList.add(new Beetle(this, (mwidth/20)* 2, (mheight/36)* 13, mwidth));
+                    beetleList.add(new Beetle(this, (mwidth/20)* 3, (mheight/36)* 29, mwidth));
+                    beetleList.add(new Beetle(this, (mwidth/20)* 5, (mheight/36)* 20, mwidth));
+                    beetleList.add(new Beetle(this, (mwidth/20)* 7, (mheight/36)* 27, mwidth));
+                    beetleList.add(new Beetle(this, (mwidth/20)* 8, (mheight/36)* 14, mwidth));
+                    beetleList.add(new Beetle(this, (mwidth/20)* 10, (mheight/36)* 7, mwidth));
+                    beetleList.add(new Beetle(this, (mwidth/20)* 12, (mheight/36)* 6, mwidth));
+                    beetleList.add(new Beetle(this, (mwidth/20)* 15, (mheight/36)* 30, mwidth));
+                    beetleList.add(new Beetle(this, (mwidth/20)* 16, (mheight/36)* 6, mwidth));
+                    beetleList.add(new Beetle(this, (mwidth/20)* 17, (mheight/36)* 7, mwidth));
+                    beetleList.add(new Beetle(this, (mwidth/20)* 12, (mheight/36)* 17, mwidth));
+                    beetleList.add(new Beetle(this, (mwidth/20)* 12, (mheight/36)* 18, mwidth));
+                    beetleList.add(new Beetle(this, (mwidth/20)* 12, (mheight/36)* 19, mwidth));
+                    beetleList.add(new Beetle(this, (mwidth/20)* 12, (mheight/36)* 20, mwidth));
+                    beetleList.add(new Beetle(this, (mwidth/20)* 13, (mheight/36)* 17, mwidth));
+                    beetleList.add(new Beetle(this, (mwidth/20)* 13, (mheight/36)* 18, mwidth));
+                    beetleList.add(new Beetle(this, (mwidth/20)* 13, (mheight/36)* 19, mwidth));
+                    beetleList.add(new Beetle(this, (mwidth/20)* 13, (mheight/36)* 20, mwidth));
             }
         }
         else {
@@ -282,11 +633,13 @@ public class GameView extends View
 
                     if (gameFatman.getLives() > 0) {
                         gameFatman.FatmanDies();
-                        gameFatman.init((mwidth/20)*5, (mheight/36)*4,mwidth);
+                        startLevel();
+//                        dead = true;
                         gameWarning = true;
-                    } else {
-                        gameEndTime = System.currentTimeMillis();
-                        gameTotalTime += gameEndTime - levelStartTime;
+                    }
+                    else {
+//                        gameEndTime = System.currentTimeMillis();
+//                        gameTotalTime -= gameEndTime - levelStartTime;
                         changeState(GAME_OVER);
                     }
                 }
@@ -313,21 +666,36 @@ public class GameView extends View
 
 
                     if (donutList.isEmpty()) {
-                        startLevel();
+                        nextLevel();
+
                     }
                     break;
 //                        size--;
 //                        eaten = true;
                 }
             }
-            gameEndTime = System.currentTimeMillis();
-            gameTotalTime -= gameEndTime - levelStartTime;
+
+
+            if (levelRemainTime <= 0)
+            {
+                touched = false;
+                if (gameFatman.getLives() > 0) {
+                    gameFatman.FatmanDies();
+                    startLevel();
+                    gameWarning = true;
+                }
+                else {
+                    changeState(GAME_OVER);
+                }
+            }
+//            gameEndTime = System.currentTimeMillis() -levelStartTime;
+//            gameTotalTime -= gameEndTime/1000;
         /*else{
             gameEndTime = System.currentTimeMillis();
             gameTotalTime -= gameEndTime - levelStartTime;
             changeState(GAME_OVER);
         }*/
-    }
+        }
 
 //
 
@@ -343,10 +711,14 @@ public class GameView extends View
     {
         if (event.getAction() == MotionEvent.ACTION_DOWN)
         {
+
+
             if (gameCurrentState == GAME_OVER || gameCurrentState == GAME_COMPLETE)
                 gameCurrentState = GAME_START;
-            else if (gameCurrentState == GAME_RUNNING) {
+
+            else if (gameCurrentState == GAME_RUNNING && !touched) {
                 gameWarning = false;
+                touched = true;
                 levelStartTime = System.currentTimeMillis();
             }
         }
@@ -385,7 +757,7 @@ public class GameView extends View
                 //gameFatman.draw(gameCanvas, canvasPaint);
                 //canvas.drawColor(Color.WHITE);
 
-                 canvas.drawBitmap(resizedfatman, gameFatman.getX()- resizedfatman.getWidth()/2 , gameFatman.getY()- resizedfatman.getHeight()/2, null);
+                canvas.drawBitmap(resizedfatman, gameFatman.getX()- resizedfatman.getWidth()/2 , gameFatman.getY()- resizedfatman.getHeight()/2, null);
 
                 for (int i = 0; i < beetleList.size();i++) {
                     canvas.drawBitmap(beetle, beetleList.get(i).x - beetle.getWidth()/2, beetleList.get(i).y - beetle.getWidth()/2, null);
@@ -420,18 +792,24 @@ public class GameView extends View
     public void drawMesseges() {
         canvasPaint.setColor(Color.WHITE);
         canvasPaint.setTextAlign(Paint.Align.LEFT);
-        gameCanvas.drawText(gameStrings[Game_TIME] + ": " + (gameTotalTime / 1000), fontTextPadding, gameHudTextY,
-                canvasPaint);
+
+            gameCanvas.drawText(gameStrings[Game_TIME] + ": " + (levelRemainTime / 1000), fontTextPadding, mheight / 36 * 34,
+                    canvasPaint);
+
         canvasPaint.setTextAlign(Paint.Align.CENTER);
-        gameCanvas.drawText(gameStrings[Game_LEVEL] + ": " + gamelevel, gameCanvasHalfWidth, gameHudTextY, canvasPaint);
+        gameCanvas.drawText(gameStrings[Game_LEVEL] + ": " + gamelevel, mwidth/2, mheight/36*34, canvasPaint);
         canvasPaint.setTextAlign(Paint.Align.RIGHT);
-        gameCanvas.drawText(gameStrings[Game_LIVES] + ": " + gameFatman.getLives(), gameCanvasWidth - fontTextPadding,
-                gameHudTextY, canvasPaint);
+        gameCanvas.drawText(gameStrings[Game_LIVES] + ": " + gameFatman.getLives(), mwidth - fontTextPadding,
+                mheight/36*34, canvasPaint);
         if (gameWarning) {
-            canvasPaint.setColor(Color.BLUE);
-            gameCanvas.drawRect(0, gameCanvasHalfHeight - 15, gameCanvasWidth, gameCanvasHalfHeight + 5,
-                            canvasPaint);
-            canvasPaint.setColor(Color.WHITE);
+            canvasPaint.setColor(Color.BLACK);
+
+            gameCanvas.drawRect((float) mwidth / 2, (float) mheight / 2, (float) mwidth / 2, (float) mheight / 2,
+                    canvasPaint);
+
+            canvasPaint.setColor(Color.DKGRAY);
+            canvasPaint.setTextSize(40);
+
             canvasPaint.setTextAlign(Paint.Align.CENTER);
             gameCanvas.drawText(gameStrings[Game_TAP_SCREEN], gameCanvasHalfWidth, gameCanvasHalfHeight, canvasPaint);
         }
@@ -441,8 +819,8 @@ public class GameView extends View
         canvasPaint.setTextAlign(Paint.Align.CENTER);
 
         gameCanvas.drawText(gameStrings[Game_GAME_OVER], gameCanvasHalfWidth, gameCanvasHalfHeight, canvasPaint);
-        gameCanvas.drawText(gameStrings[Game_TOTAL_TIME] + ": " + (gameTotalTime / 1000) + "s",
-                gameCanvasHalfWidth, gameCanvasHalfHeight + canvasPaint.getFontSpacing(), canvasPaint);
+//        gameCanvas.drawText(gameStrings[Game_TOTAL_TIME] + ": " + (gameTotalTime / 1000) + "s",
+//                gameCanvasHalfWidth, gameCanvasHalfHeight + canvasPaint.getFontSpacing(), canvasPaint);
         gameCanvas.drawText(gameStrings[Game_GAME_OVER_MSG_A] + " " + (gamelevel - 1) + " "
                 + gameStrings[Game_GAME_OVER_MSG_B], gameCanvasHalfWidth, gameCanvasHalfHeight
                 + (canvasPaint.getFontSpacing() * 2), canvasPaint);
@@ -456,9 +834,9 @@ public class GameView extends View
     public void drawGameComplete() {
         canvasPaint.setColor(Color.WHITE);
         canvasPaint.setTextAlign(Paint.Align.CENTER);
-        gameCanvas.drawText(gameStrings[GAME_COMPLETE], 50, 28*20, canvasPaint);
-        gameCanvas.drawText(gameStrings[Game_TOTAL_TIME] + ": " + (gameTotalTime / 1000) + "s",
-                70, 28*20, canvasPaint);
+        gameCanvas.drawText(gameStrings[GAME_COMPLETE], 50, 28 * 20, canvasPaint);
+//        gameCanvas.drawText(gameStrings[Game_TOTAL_TIME] + ": " + (gameTotalTime / 1000) + "s",
+//                70, 28*20, canvasPaint);
         gameCanvas.drawText(gameStrings[Game_RESTART], gameCanvasHalfWidth, gameCanvasHeight
                 - (canvasPaint.getFontSpacing() * 3), canvasPaint);
     }
