@@ -121,12 +121,14 @@ public class MainActivity extends Activity {
             public void onClick(View v) {
 //                setContentView(new howtoplayView(getApplicationContext(), MainActivity.this));
                 setContentView(R.layout.howtoplay);
-                final Button backButton = (Button) findViewById(R.id.back_id)
-                backButton.setOnClickListener((v) -> {
-                    setContentView(R.layout.howtoplay);
+                final Button backButton = (Button) findViewById(R.id.back_id);
+                backButton.setOnClickListener((View v) -> {
+                    setContentView(R.layout.activity_main);
 
-                });
-            }
+                }
+        });
+
+    }
 
 //                View.setFocusable(true);
                 /*@Override
@@ -143,12 +145,6 @@ public class MainActivity extends Activity {
                     howtoplayPaint.setTextAlign(Paint.Align.RIGHT);
                     setContentView(View);
                 }*/
-            }
-        });
-
-    }
-
-
 
 
     @Override
