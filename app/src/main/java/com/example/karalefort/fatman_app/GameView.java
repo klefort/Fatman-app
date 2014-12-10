@@ -189,7 +189,7 @@ public class GameView extends View
             case 2:
                 gameFatman.init((mwidth/20)*3,(mheight/36)*29, mwidth);
 
-                donutList.add(new Donut(this,(mwidth/20)*19,(mheight/36)*11,'p',mwidth));
+                donutList.add(new Donut(this,(mwidth/20)*18,(mheight/36)*9,'p',mwidth));
 
                 beetleList.add(new Beetle(this,(mwidth/20)*11,(mheight/36)*4,mwidth));
                 beetleList.add(new Beetle(this,(mwidth/20)*6,(mheight/36)*8,mwidth));
@@ -222,16 +222,18 @@ public class GameView extends View
                 donutList.add(new Donut(this, (mwidth/20)* 4, (mheight/36)* 27,'p', mwidth));
                 donutList.add(new Donut(this, (mwidth/20)* 4, (mheight/36)* 27,'p', mwidth));
                 donutList.add(new Donut(this, (mwidth/20)* 4, (mheight/36)* 27,'p', mwidth));
+
+                beetleList.add(new Beetle(this, (mwidth/20)* 10, (mheight/36)*27, mwidth));
                 break;
 
             case 4:
                 gameFatman.init((mwidth/20)*5, (mheight/36)*4,mwidth);
 
-                donutList.add(new Donut(this, (mwidth/20)* 3, (mheight/36)* 27,'b', mwidth));
-                donutList.add(new Donut(this, (mwidth/20)* 6, (mheight/36)* 23,'p', mwidth));
+//                donutList.add(new Donut(this, (mwidth/20)* 3, (mheight/36)* 27,'b', mwidth));
+//                donutList.add(new Donut(this, (mwidth/20)* 6, (mheight/36)* 23,'p', mwidth));
                 donutList.add(new Donut(this, (mwidth/20)* 7, (mheight/36)* 10,'b', mwidth));
                 donutList.add(new Donut(this, (mwidth/20)* 10, (mheight/36)* 2,'p', mwidth));
-                donutList.add(new Donut(this, (mwidth/20)* 14, (mheight/36)* 8, 'b',mwidth));
+//                donutList.add(new Donut(this, (mwidth/20)* 14, (mheight/36)* 8, 'b',mwidth));
                 donutList.add(new Donut(this, (mwidth/20)* 14, (mheight/36)* 12,'p', mwidth));
 
                 beetleList.add(new Beetle(this, (mwidth/20)* 2, (mheight/36)* 5, mwidth));
@@ -278,7 +280,7 @@ public class GameView extends View
                 gameFatman.init((mwidth / 20) * 5, (mheight / 36) * 18, mwidth);
 
                 donutList.add(new Donut(this,(mwidth/20)*2,(mheight/36)*3,'b',mwidth));
-                donutList.add(new Donut(this,(mwidth/20)*2,(mheight/36)*7,'p',mwidth));
+                donutList.add(new Donut(this,(mwidth/20)*3,(mheight/36)*7,'p',mwidth));
                 donutList.add(new Donut(this,(mwidth/20)*2,(mheight/36)*12,'b',mwidth));
                 donutList.add(new Donut(this,(mwidth/20)*11,(mheight/36)*12,'c',mwidth));
                 donutList.add(new Donut(this,(mwidth/20)*16,(mheight/36)*5,'b',mwidth));
@@ -387,7 +389,7 @@ public class GameView extends View
                 case 2:
                     gameFatman.init((mwidth/20)*3,(mheight/36)*29, mwidth);
 
-                    donutList.add(new Donut(this,(mwidth/20)*19,(mheight/36)*11,'p',mwidth));
+                    donutList.add(new Donut(this,(mwidth/20)*18,(mheight/36)*9,'p',mwidth));
 
                     beetleList.add(new Beetle(this,(mwidth/20)*11,(mheight/36)*4,mwidth));
                     beetleList.add(new Beetle(this,(mwidth/20)*6,(mheight/36)*8,mwidth));
@@ -420,16 +422,18 @@ public class GameView extends View
                     donutList.add(new Donut(this, (mwidth/20)* 4, (mheight/36)* 27,'p', mwidth));
                     donutList.add(new Donut(this, (mwidth/20)* 4, (mheight/36)* 27,'p', mwidth));
                     donutList.add(new Donut(this, (mwidth/20)* 4, (mheight/36)* 27,'p', mwidth));
+
+                    beetleList.add(new Beetle(this, (mwidth/20)* 10, (mheight/36)*27, mwidth));
                     break;
 
                 case 4:
                     gameFatman.init((mwidth/20)*5, (mheight/36)*4,mwidth);
 
-                    donutList.add(new Donut(this, (mwidth/20)* 3, (mheight/36)* 27,'b', mwidth));
-                    donutList.add(new Donut(this, (mwidth/20)* 6, (mheight/36)* 23,'p', mwidth));
+//                    donutList.add(new Donut(this, (mwidth/20)* 3, (mheight/36)* 27,'b', mwidth));
+//                    donutList.add(new Donut(this, (mwidth/20)* 6, (mheight/36)* 23,'p', mwidth));
                     donutList.add(new Donut(this, (mwidth/20)* 7, (mheight/36)* 10,'b', mwidth));
                     donutList.add(new Donut(this, (mwidth/20)* 10, (mheight/36)* 2,'p', mwidth));
-                    donutList.add(new Donut(this, (mwidth/20)* 14, (mheight/36)* 8, 'b',mwidth));
+//                    donutList.add(new Donut(this, (mwidth/20)* 14, (mheight/36)* 8, 'b',mwidth));
                     donutList.add(new Donut(this, (mwidth/20)* 14, (mheight/36)* 12,'p', mwidth));
 
                     beetleList.add(new Beetle(this, (mwidth/20)* 2, (mheight/36)* 5, mwidth));
@@ -476,7 +480,7 @@ public class GameView extends View
                     gameFatman.init((mwidth / 20) * 5, (mheight / 36) * 18, mwidth);
 
                     donutList.add(new Donut(this,(mwidth/20)*2,(mheight/36)*3,'b',mwidth));
-                    donutList.add(new Donut(this,(mwidth/20)*2,(mheight/36)*7,'p',mwidth));
+                    donutList.add(new Donut(this,(mwidth/20)*3,(mheight/36)*7,'p',mwidth));
                     donutList.add(new Donut(this,(mwidth/20)*2,(mheight/36)*12,'b',mwidth));
                     donutList.add(new Donut(this,(mwidth/20)*11,(mheight/36)*12,'c',mwidth));
                     donutList.add(new Donut(this,(mwidth/20)*16,(mheight/36)*5,'b',mwidth));
@@ -719,14 +723,14 @@ public class GameView extends View
         canvasPaint.setColor(Color.WHITE);
         canvasPaint.setTextAlign(Paint.Align.LEFT);
 
-        gameCanvas.drawText(gameStrings[Game_TIME] + ": " + (levelRemainTime / 1000), fontTextPadding, mheight / 36 * 34,
+        gameCanvas.drawText(gameStrings[Game_TIME] + ": " + (levelRemainTime / 1000), fontTextPadding, mheight / 36 * (float)34.75,
                 canvasPaint);
 
         canvasPaint.setTextAlign(Paint.Align.CENTER);
-        gameCanvas.drawText(gameStrings[Game_LEVEL] + ": " + gamelevel, mwidth/2, mheight/36*34, canvasPaint);
+        gameCanvas.drawText(gameStrings[Game_LEVEL] + ": " + gamelevel, mwidth/2, mheight/36*(float)34.75, canvasPaint);
         canvasPaint.setTextAlign(Paint.Align.RIGHT);
         gameCanvas.drawText(gameStrings[Game_LIVES] + ": " + gameFatman.getLives(), mwidth - fontTextPadding,
-                mheight/36*34, canvasPaint);
+                mheight/36*(float)34.75, canvasPaint);
         if (gameWarning) {
             canvasPaint.setColor(Color.BLACK);
 
@@ -766,6 +770,7 @@ public class GameView extends View
         gameCanvas.drawText("HAPPY FATMAN!!", gameCanvasHalfWidth, gameCanvasHalfHeight-40, canvasPaint);
 
         canvasPaint.setTextSize(20);
+
         gameCanvas.drawText(gameStrings[Game_RESTART], gameCanvasHalfWidth, gameCanvasHalfHeight+20, canvasPaint);
     }
 

@@ -25,7 +25,7 @@
         android:layout_marginTop="120dp"
          />
 
-    
+
 
 
 
@@ -42,13 +42,14 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/navigate_id"
-        android:layout_alignBottom="@+id/imageview1"
         android:id="@+id/imageview3"
-        android:layout_marginLeft="200dp"
-        android:layout_marginTop="80dp"
         android:src="@drawable/beetlenew"
-         />
+        android:layout_toEndOf="@+id/textView2"
+        android:layout_alignBottom="@+id/imageview2"
+        android:layout_alignTop="@+id/imageview2"
+        android:layout_toRightOf="@+id/imageview2"
+
+        />
 
     <TextView
         android:layout_width="wrap_content"
@@ -59,64 +60,77 @@
         android:textAllCaps="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="45dp"
-        />
+        android:id="@+id/textView2" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/navigate_id"
-        android:textSize="20dp"
+        android:textSize="15dp"
         android:layout_marginLeft="45dp"
         android:layout_marginTop="250dp"
-        android:text="1. Navigate the office space"
+        android:text="1. Navigate the office space to eat all of"
         />
 
     <TextView
     android:layout_width="wrap_content"
        android:layout_height="wrap_content"
-    android:text="to eat all of the donuts before"
-    android:textSize="20dp"
-    android:layout_below="@+id/navigate_id"
+    android:text="the donuts before the timer runs out."
+    android:textSize="15dp"
+        android:layout_marginTop="275dp"
         android:layout_alignLeft="@+id/navigate_id"
-    />
+        android:id="@+id/textView4" />
 
    <TextView
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text="the timer runs out."
-    android:textSize="20dp"
-       android:layout_alignLeft="@+id/navigate_id"
-    android:layout_marginTop="300dp"
-       android:id="@+id/textView" />
+    android:text="2. Plan your path carefully, because Fatman"
+    android:textSize="15dp"
+    android:layout_alignLeft="@+id/navigate_id"
+    android:layout_marginTop="310dp"
+    android:id="@+id/textView" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="2. Avoid beetles and 'phantom' "
-        android:textSize="20dp"
+        android:text="grows as he eats donuts and will get"
+        android:textSize="15dp"
         android:layout_alignLeft="@+id/navigate_id"
-        android:layout_marginTop="340dp"/>
+        android:layout_marginTop="335dp"/>
+
+
+
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="donuts that may cause the "
-        android:textSize="20dp"
+        android:text="stuck in the office cubicles."
+        android:textSize="15dp"
         android:layout_alignLeft="@+id/navigate_id"
-        android:layout_marginTop="365dp"/>
+        android:layout_marginTop="360dp"
+        android:id="@+id/textView3" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Fatman to increase size like"
-        android:textSize="20dp"
+        android:text="3. Avoid  the poisonous beetles and watch"
+        android:textSize="15dp"
         android:layout_alignLeft="@+id/navigate_id"
-        android:layout_marginTop="390dp"/>
+        android:layout_marginTop="395dp"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="crazy."
-        android:textSize="20dp"
+        android:text="out for 'phantom' donuts that cause"
+
+        android:textSize="15dp"
         android:layout_alignLeft="@+id/navigate_id"
-        android:layout_marginTop="415dp"/>
+        android:layout_marginTop="420dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Fatman to increase size like crazy."
+        android:textSize="15dp"
+        android:layout_alignLeft="@+id/navigate_id"
+        android:layout_marginTop="445dp"/>
 </RelativeLayout>
